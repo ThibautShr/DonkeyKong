@@ -7,14 +7,16 @@ import java.awt.Rectangle;
 
 import javax.sound.midi.Synthesizer;
 
+import donkeykong.movements.Jump;
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;
 import gameframework.base.Overlappable;
+import gameframework.base.SpeedVector;
 import gameframework.game.GameEntity;
 import gameframework.game.GameMovable;
 import gameframework.game.SpriteManagerDefaultImpl;
 
-public class Mario extends GameMovable implements Drawable, GameEntity,Overlappable {
+public class Mario extends GameMovable implements Drawable, GameEntity, Overlappable {
 	
 	protected static DrawableImage image = null;
 	protected boolean movable = true;
@@ -23,6 +25,9 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 	public static final int RENDERING_SIZE = 30;
 	public static final int NB_ELEMENT_BY_ROW = 5;
 	private Point position;
+	private SpeedVector lastSpeedVector;
+	private String lastSpriteType;
+	private Jump jump;
 
 	public Mario(Canvas defaultCanvas) {
 		spriteManager = new SpriteManagerDefaultImpl("images/mario.png",
@@ -32,6 +37,9 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 				"left",
 				"motion2",
 				"motion3");
+		
+		//jump = new Jump();
+		lastSpriteType = "right";
 	}
 	
 	public Point getPosition() {
@@ -49,31 +57,32 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 
 	@Override
 	public void draw(Graphics g) {
-		Point tmp = getSpeedVector().getDirection();
-		int speed = getSpeedVector().getSpeed();
-		
 		movable = true;
 
-		String spriteType = "right";
+		String spriteType = lastSpriteType;
 
-		//System.out.println("x : " + tmp.getX() + ", y : " + tmp.getY());
+		Point direction = getSpeedVector().getDirection();
+		int speed = getSpeedVector().getSpeed();
 		
-		if (tmp.getX() == 1) { // right
-			spriteType = "right"; 
-			position.setLocation(position.getX() + speed, position.getY());
-		} else if (tmp.getX() == -1) { // left
-			position.setLocation(position.getX() - speed, position.getY());
+		position.setLocation(position.getX() + direction.getX() * speed , position.getY() + direction.getY() * speed);
+		
+		if (direction.getX() == 1) { // right
+			spriteType = "right";
+		} else if (direction.getX() == -1) { // left
 			spriteType = "left";
-		} else if (tmp.getY() == 1) { // bottom
-			spriteType = "left";
-		} else if (tmp.getY() == -1) {
-			spriteType = "left"; // top
+		} else if (direction.getY() == 1) { // top
+			spriteType = lastSpriteType;
+		} else if (direction.getY() == -1) { // bottom
+			spriteType = lastSpriteType;
+		} else if (direction.getY() == -2) { // jump
+			spriteType = lastSpriteType; // bottom
 		}else{
 			spriteManager.reset();
 			movable = false;
-			//System.out.println("stop");
 		}
-
+		
+		lastSpriteType = spriteType;
+		
 		spriteManager.setType(spriteType);
 		spriteManager.draw(g, getPosition());
 	}
