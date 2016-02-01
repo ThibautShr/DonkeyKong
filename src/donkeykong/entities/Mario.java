@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.sound.midi.Synthesizer;
+
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;
 import gameframework.base.Overlappable;
@@ -48,6 +50,8 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 	@Override
 	public void draw(Graphics g) {
 		Point tmp = getSpeedVector().getDirection();
+		int speed = getSpeedVector().getSpeed();
+		
 		movable = true;
 
 		String spriteType = "right";
@@ -56,7 +60,9 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 		
 		if (tmp.getX() == 1) { // right
 			spriteType = "right"; 
+			position.setLocation(position.getX() + speed, position.getY());
 		} else if (tmp.getX() == -1) { // left
+			position.setLocation(position.getX() - speed, position.getY());
 			spriteType = "left";
 		} else if (tmp.getY() == 1) { // bottom
 			spriteType = "left";
@@ -65,6 +71,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 		}else{
 			spriteManager.reset();
 			movable = false;
+			//System.out.println("stop");
 		}
 
 		spriteManager.setType(spriteType);
@@ -73,8 +80,8 @@ public class Mario extends GameMovable implements Drawable, GameEntity,Overlappa
 
 	@Override
 	public void oneStepMoveAddedBehavior() {
-		// TODO Auto-generated method stub
-		
+		if (movable) {
+			spriteManager.increment();
+		}
 	}
-
 }
