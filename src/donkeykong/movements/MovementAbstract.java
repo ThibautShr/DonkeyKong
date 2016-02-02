@@ -5,9 +5,13 @@ import java.awt.Point;
 import gameframework.base.SpeedVector;
 
 public abstract class MovementAbstract implements Movement{
-	boolean onGoing;
-	SpeedVector v;
+	private boolean onGoing;
+	private SpeedVector v;
 
+	public MovementAbstract(){
+		onGoing = true;
+	}
+	
 	public void init() {
 		onGoing = true;
 	}
@@ -26,5 +30,20 @@ public abstract class MovementAbstract implements Movement{
 	
 	public void setOnGoing(boolean b){
 		onGoing = b;
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		Movement m;
+		try {
+			m = (Movement) super.clone();
+			m.setOnGoing(onGoing);
+			m.setVector((SpeedVector)v.clone());
+			return m;
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new CloneNotSupportedException();
+		}
+		
 	}
 }

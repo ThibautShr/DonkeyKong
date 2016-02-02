@@ -6,12 +6,23 @@ public class Up extends MovementAbstract{
 
 	@Override
 	public Point nextStep() {
-		onGoing = false;
+		this.setOnGoing(false);
 		return new Point(0, -1);
 	}
 	
 	public Up(){
-		onGoing = true;
+		super();
+	}
+	
+	public Movement clone() throws CloneNotSupportedException{
+		try {
+			Up clone = (Up) super.clone();
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			throw new CloneNotSupportedException();
+		}
+		
 	}
 
 }
