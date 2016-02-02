@@ -31,7 +31,6 @@ public class SpriteManagerDefaultImpl implements SpriteManager {
 		this.spriteSize = image.getImage().getWidth(null) / maxSpriteNumber;
 	}
 
-	@Override
 	public void setTypes(String... types) {
 		int i = 0;
 		this.types = new HashMap<String, Integer>(types.length);
@@ -41,7 +40,6 @@ public class SpriteManagerDefaultImpl implements SpriteManager {
 		}
 	}
 
-	@Override
 	public void draw(Graphics g, Point position) {
 		// Destination image coordinates
 		int dx1 = (int) position.getX();
@@ -58,7 +56,6 @@ public class SpriteManagerDefaultImpl implements SpriteManager {
 				null);
 	}
 
-	@Override
 	public void setType(String type) {
 		if (!types.containsKey(type)) {
 			throw new IllegalArgumentException(type
@@ -67,7 +64,6 @@ public class SpriteManagerDefaultImpl implements SpriteManager {
 		this.currentRow = types.get(type);
 	}
 
-	@Override
 	public void increment() {
 		spriteNumber = (spriteNumber + 1) % maxSpriteNumber;
 	}
