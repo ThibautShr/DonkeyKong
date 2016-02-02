@@ -6,7 +6,7 @@ public class Jump extends MovementAbstract{
 
 	int step;
 	Point direction; 
-	public static final int MAX_STEP = 6;
+	public static final int MAX_STEP = 4;
 
 
 	public Jump(){

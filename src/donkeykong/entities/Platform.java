@@ -31,6 +31,7 @@ public class Platform implements Drawable, MoveBlocker, GameEntity {
 	}
 
 	public Rectangle getBoundingBox() {
-		return (new Rectangle(x, y - RENDERING_SIZE, RENDERING_SIZE / 2, RENDERING_SIZE * 2));
+		//return (new Rectangle(x, y - RENDERING_SIZE, RENDERING_SIZE / 2, RENDERING_SIZE * 2));
+		return (new Rectangle(x, y, RENDERING_SIZE, RENDERING_SIZE));
 	}
 }

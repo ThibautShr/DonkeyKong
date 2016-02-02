@@ -3,10 +3,10 @@ package gameframework.game;
 import gameframework.base.Movable;
 
 import java.lang.reflect.Method;
+import java.util.Observable;
 import java.util.Vector;
 
-public class MoveBlockerRulesApplierDefaultImpl implements
-		MoveBlockerRulesApplier {
+public class MoveBlockerRulesApplierDefaultImpl extends Observable implements MoveBlockerRulesApplier {
 
 	public boolean moveValidationProcessing(Vector<MoveBlocker> moveBlockers,
 			Movable m) {

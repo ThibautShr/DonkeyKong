@@ -8,6 +8,10 @@ public abstract class MovementAbstract implements Movement{
 	boolean onGoing;
 	SpeedVector v;
 
+	public void init() {
+		onGoing = true;
+	}
+	
 	public SpeedVector getVector() {
 		return v;
 	}
@@ -16,11 +20,11 @@ public abstract class MovementAbstract implements Movement{
 		this.v = v;
 	}
 	
-	public void init() {
-		onGoing = true;
-	}
-	
 	public boolean OnGoing(){
 		return onGoing;
+	}
+	
+	public void setOnGoing(boolean b){
+		onGoing = b;
 	}
 }

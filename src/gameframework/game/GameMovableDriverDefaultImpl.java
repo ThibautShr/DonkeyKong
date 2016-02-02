@@ -1,12 +1,15 @@
 package gameframework.game;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import gameframework.base.Movable;
 import gameframework.base.MoveStrategy;
 import gameframework.base.MoveStrategyDefaultImpl;
 import gameframework.base.SpeedVector;
 import gameframework.base.SpeedVectorDefaultImpl;
 
-public class GameMovableDriverDefaultImpl implements GameMovableDriver {
+public class GameMovableDriverDefaultImpl extends Observable implements GameMovableDriver{
 	protected MoveBlockerChecker moveBlockerChecker;
 	protected MoveStrategy moveStrategy;
 

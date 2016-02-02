@@ -11,4 +11,5 @@ public interface Movement {
 	void setVector(SpeedVector v);
 	void init();
 	boolean OnGoing();
+	void setOnGoing(boolean b);
 }

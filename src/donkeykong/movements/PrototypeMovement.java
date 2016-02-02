@@ -4,7 +4,7 @@ import gameframework.base.SpeedVector;
 
 public class PrototypeMovement {
 
-	Movement up, down, left, right, jump;
+	Movement up, down, left, right, jump, gravity;
 	
 	public PrototypeMovement(){
 		up = new Up();
@@ -12,6 +12,7 @@ public class PrototypeMovement {
 		left = new Left();
 		right = new Right();
 		jump = new Jump();
+		gravity = new Gravity();
 	}
 	
 	public Movement getUp(){
@@ -36,7 +37,12 @@ public class PrototypeMovement {
 
 	public Movement getJump(SpeedVector v){
 		jump.init();
-		jump.setVector(v);
+		jump.setVector((SpeedVector) v.clone());
 		return jump;
+	}
+	
+	public Movement getGravity(){
+		gravity.init();
+		return gravity;
 	}
 }

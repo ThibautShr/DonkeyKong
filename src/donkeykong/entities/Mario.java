@@ -22,7 +22,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 	protected boolean movable = true;
 	protected boolean active = true;
 	private final SpriteManagerDefaultImpl spriteManager;
-	public static final int RENDERING_SIZE = 30;
+	public static final int RENDERING_SIZE = 16;
 	public static final int NB_ELEMENT_BY_ROW = 5;
 	private Point position;
 	private SpeedVector lastSpeedVector;
@@ -61,8 +61,10 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 
 		String spriteType = lastSpriteType;
 
-		Point direction = getSpeedVector().getDirection();
-		int speed = getSpeedVector().getSpeed();
+		SpeedVector s = getSpeedVector();
+		
+		Point direction = s.getDirection();
+		int speed = s.getSpeed();
 		
 		position.setLocation(position.getX() + direction.getX() * speed , position.getY() + direction.getY() * speed);
 		
@@ -84,6 +86,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 		lastSpriteType = spriteType;
 		
 		spriteManager.setType(spriteType);
+		System.out.println("Change mario position");
 		spriteManager.draw(g, getPosition());
 	}
 

@@ -4,9 +4,10 @@ import gameframework.base.Overlap;
 import gameframework.base.Overlappable;
 
 import java.lang.reflect.Method;
+import java.util.Observable;
 import java.util.Vector;
 
-public abstract class OverlapRulesApplierDefaultImpl implements
+public abstract class OverlapRulesApplierDefaultImpl extends Observable implements
 		OverlapRulesApplier {
 
 	public void applyOverlapRules(Vector<Overlap> overlaps) {
