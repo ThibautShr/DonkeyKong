@@ -11,7 +11,6 @@ public class Jump extends MovementAbstract{
 
 	public Jump(){
 		step = 0;
-		onGoing = true;
 		this.direction = new Point(0,0);
 	}
 	
@@ -21,7 +20,7 @@ public class Jump extends MovementAbstract{
 	}
 	
 	public Point nextStep(){
-		Point last_direction = v.getDirection();
+		Point last_direction = this.getVector().getDirection();
 		
 		if(step < MAX_STEP / 2) // increase phase
 			direction.setLocation(last_direction.getX(), -1);
@@ -29,11 +28,27 @@ public class Jump extends MovementAbstract{
 			direction.setLocation(last_direction.getX(), 1);
 		
 		if(step == MAX_STEP - 1)
-			onGoing = false;
+			this.setOnGoing(false);
 		else
 			step++;
 		
 		return direction;
 	}
+	
+	public Movement clone() throws CloneNotSupportedException{
+	
+		try {
+			Jump clone = (Jump) super.clone();
+			clone.direction = (Point) this.direction.clone();
+			clone.step = this.step;
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new CloneNotSupportedException();
+		}
+		
+	}
+	
 
 }

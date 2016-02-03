@@ -2,48 +2,18 @@ package donkeykong.movements;
 
 import gameframework.base.SpeedVector;
 
-public class PrototypeMovement {
+public interface PrototypeMovement {
+	
+	public Movement getUp();
+	
+	public Movement getDown();
+	
+	public Movement getLeft();
+	
+	public Movement getRight();
 
-	Movement up, down, left, right, jump, gravity;
+	public Movement getJump(SpeedVector v);
 	
-	public PrototypeMovement(){
-		up = new Up();
-		down = new Down();
-		left = new Left();
-		right = new Right();
-		jump = new Jump();
-		gravity = new Gravity();
-	}
-	
-	public Movement getUp(){
-		up.init();
-		return up;
-	}
-	
-	public Movement getDown(){
-		down.init();
-		return down;
-	}
-	
-	public Movement getLeft(){
-		left.init();
-		return left;
-	}
-	
-	public Movement getRight(){
-		right.init();
-		return right;
-	}
+	public Movement getGravity();
 
-	public Movement getJump(SpeedVector v){
-		jump.init();
-		jump.setVector((SpeedVector) v.clone());
-		//System.out.println("init jump : " +  v.getDirection().getX() + "," + v.getDirection().getY());
-		return jump;
-	}
-	
-	public Movement getGravity(){
-		gravity.init();
-		return gravity;
-	}
 }

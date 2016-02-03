@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import gameframework.base.SpeedVector;
 
-public interface Movement {
+public interface Movement extends Cloneable{
 
 	Point nextStep();
 	SpeedVector getVector();
@@ -12,4 +12,5 @@ public interface Movement {
 	void init();
 	boolean OnGoing();
 	void setOnGoing(boolean b);
+	Object clone() throws CloneNotSupportedException;
 }
