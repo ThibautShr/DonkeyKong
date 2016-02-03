@@ -44,7 +44,7 @@ public class Ladder implements Drawable, GameEntity, Overlappable, Cloneable {
 	}
 
 	public Rectangle getBoundingBox() {
-		return (new Rectangle((int) position.getX(), (int) position.getY(),
-				RENDERING_SIZE, RENDERING_SIZE));
+		return (new Rectangle((int) position.getX() + RENDERING_SIZE/2, (int) position.getY() + RENDERING_SIZE/2,
+				RENDERING_SIZE/4, RENDERING_SIZE/4));
 	}
 }

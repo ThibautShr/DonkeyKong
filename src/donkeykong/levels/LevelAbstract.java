@@ -3,6 +3,7 @@ package donkeykong.levels;
 import java.awt.Canvas;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observer;
 
 import donkeykong.entities.BackGround;
@@ -18,6 +19,7 @@ import donkeykong.rules.MarioOverlapRules;
 import gameframework.base.DrawableImage;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
+import gameframework.game.GameEntity;
 import gameframework.game.GameLevelDefaultImpl;
 import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverseDefaultImpl;
@@ -47,45 +49,23 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	private MarioMoveBlockers marioMoveBlockers;
 	private PrototypeEntities prototypeEntities;
 
-	/*private static int[][] tab = { 
-		    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-			{ 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 1, 1 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0 },
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };*/
 	
 	private static int[][] tab;
 	
 	public LevelAbstract(Game g) {
 		super(g);
 		canvas = g.getCanvas();
-		initTab();
+	}
+	
+	public void initUniverse(){
+		if(universe != null){
+			Iterator<GameEntity> entity = universe.gameEntities();
+			while(entity.hasNext()){
+				GameEntity gameEntity = entity.next();
+				universe.removeGameEntity(gameEntity);
+				System.out.println("remove entity");
+			}
+		}
 	}
 	
 	public void initTab(){
@@ -95,6 +75,10 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 				tab[i][j] = HOLE;
 			}
 		}
+	}
+	
+	public int[][] getTab(){
+		return tab.clone();
 	}
 
 	public void makeHorizontalLine(int val, int line){
@@ -138,23 +122,23 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 
 	public void makeLadder(int i, int j){
 		int randomColumn = (int) (Math.random() * NB_COLUMNS);
-		/*int secondColumn = randomColumn;
+		int secondColumn = randomColumn;
 		if(randomColumn == NB_COLUMNS - 1)
 			secondColumn--;
 		else
-			secondColumn++;*/
+			secondColumn++;
 		while(i > j){
 			tab[i][randomColumn] = LADDER;
-			//tab[i][secondColumn] = LADDER;
+			tab[i][secondColumn] = LADDER;
 			i--;
 		}
 	}
 	
 	public int getUnderLimit(int i){
 		if(i == indexPlatforms.size() - 1)
-			return indexPlatforms.get(i-1) - 2;
+			return indexPlatforms.get(i-1) - 1;
 		else
-			return indexPlatforms.get(i+1) - 2;
+			return indexPlatforms.get(i+1) - 1;
 	}
 	
 	public void addLadders(int nbLadders){
@@ -177,7 +161,21 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		}
 	}
 	
+	public void makeHole(int row,int column,int size){
+		for(int i=0; i<size; ++i){
+			tab[row][column + i] = HOLE;
+		}
+	}
+	
 	public void addHoles(int nb){
+		int holesRemaining = nb;
+		int platformIndex, holePosition;
+		while(holesRemaining > 0){
+			platformIndex = (int) (Math.random() * (indexPlatforms.size() - 1));
+			holePosition = (int) (Math.random() * (NB_COLUMNS - 1));
+			makeHole(indexPlatforms.get(platformIndex),holePosition, 2);
+			holesRemaining--;
+		}
 		
 	}
 	
@@ -263,6 +261,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addDonkeyKong(){
 		DonkeyKong dk = new DonkeyKong(canvas);
 		int dkHeight = (int) dk.getBoundingBox().getHeight();
+		//dk.setPosition(new Point(10 * SPRITE_SIZE, 25 * SPRITE_SIZE));
 		dk.setPosition(new Point(1 * SPRITE_SIZE, (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE - dkHeight));
 		universe.addGameEntity(dk);
 	}
@@ -270,7 +269,8 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addPeach(){
 		Peach peach = new Peach(canvas);
 		int peachHeight = (int) peach.getBoundingBox().getHeight();
-		peach.setPosition(new Point(10 * SPRITE_SIZE, (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE - peachHeight));
+		//peach.setPosition(new Point(10 * SPRITE_SIZE, 28 * SPRITE_SIZE));
+		peach.setPosition((new Point(10 * SPRITE_SIZE, (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE - peachHeight)));
 		universe.addGameEntity(peach);
 	}
 }

@@ -12,12 +12,14 @@ public class LevelOne extends LevelAbstract{
 		super(g);
 	}
 
-	@Override
-	public void init() {
+	public void init(){
+		initTab();
 		addRules();
 		drawGameBoard();
 		addPlatforms(4);
 		addLadders(5);
+		addHoles(3);
+		
 		try {
 			addEntities(BACKGROUND,LADDER,PLATFORM);
 		} catch (CloneNotSupportedException e) {

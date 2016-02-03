@@ -8,9 +8,10 @@ import java.awt.Rectangle;
 import gameframework.base.Drawable;
 import gameframework.base.Overlappable;
 import gameframework.game.GameEntity;
+import gameframework.game.GameMovable;
 import gameframework.game.SpriteManagerDefaultImpl;
 
-public class Peach implements Drawable, GameEntity,Overlappable {
+public class Peach extends GameMovable implements Drawable, GameEntity, Overlappable {
 
 	
 	protected boolean movable = false;
@@ -42,6 +43,11 @@ public class Peach implements Drawable, GameEntity,Overlappable {
 	public void draw(Graphics g) {
 		spriteManager.draw(g, getPosition());
 		spriteManager.increment();
+	}
+
+	@Override
+	public void oneStepMoveAddedBehavior() {
+		
 	}
 
 }

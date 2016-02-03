@@ -14,10 +14,12 @@ public class LevelThree extends LevelAbstract{
 
 	@Override
 	public void init() {
+		initTab();
 		addRules();
 		drawGameBoard();
-		addPlatforms(7);
+		addPlatforms(5);
 		addLadders(6);
+		addHoles(7);
 		try {
 			addEntities(BACKGROUND,LADDER,PLATFORM);
 		} catch (CloneNotSupportedException e) {
@@ -27,5 +29,4 @@ public class LevelThree extends LevelAbstract{
 		addDonkeyKong();
 		addPeach();
 	}
-
 }

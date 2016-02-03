@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.omg.Messaging.SyncScopeHelper;
+
 import donkeykong.movements.*;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;
@@ -17,6 +19,7 @@ import gameframework.base.SpeedVectorDefaultImpl;
 public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observer{
 	
 	protected SpeedVector speedVector = new SpeedVectorDefaultImpl(new Point(0,0));
+	protected SpeedVector speedVectorSave = new SpeedVectorDefaultImpl(new Point(0,0));
 	protected int init_speed = speedVector.getSpeed();
 	protected PrototypeMovement prototype = new PrototypeMovementDefaultImpl();
 	protected Movement movement;
@@ -24,46 +27,46 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 	protected ArrayList<Integer> listKey = new ArrayList<Integer>();
 	
 	protected boolean onOverlappableArea = false;
-	protected boolean onBlock = false;
-	protected boolean upAllow = false;
 	
-	public static final int SPEED_UP= 6;
-	public static final int THRESHOLD_SPEED_UP = 16;
+	public static final int SPEED_UP = 6;
+	public static final int THRESHOLD_SPEED_UP = 8;
+	public static final int THRESHOLD_GRAVITY_SPEED_UP = 1;
 	
 	public SpeedVector getSpeedVector() {
-
+		//(!listKey.isEmpty() && listKey.get(listKey.size()-1) != KeyEvent.VK_SPACE)
 		speedVector.setSpeed(init_speed);
 		if(movement != null){
 			if(movement.OnGoing()){
 				if(listKey.size() > THRESHOLD_SPEED_UP)
 					speedVector.setSpeed(speedVector.getSpeed() + SPEED_UP);
+				//System.out.println(((Gravity)gravity).getStep());
 				speedVector.setDirection(movement.nextStep());
+				speedVectorSave.setDirection(new Point((int)(speedVector.getDirection().getX()),0)); // we save the current speedVector (without gravity) used for a jump
 			}
 			else{
-				//System.out.println(listKey.toString());
 				if(movement.getVector() == null || listKey.isEmpty())
 					speedVector.setDirection(new Point(0, 0));
-				else{
-					//speedVector = movement.getVector();
+				else
 					speedVector.setDirection(new Point((int)movement.getVector().getDirection().getX(),0));
-				}
 			}
 		}
 		
-		if((movement == null || !movement.OnGoing()) && gravity.OnGoing()){ // && !onBlock && !onOverlappableArea
+		//Strategy gravity
+		if((movement == null || !movement.OnGoing()) && gravity.OnGoing()){
 			Point direction = gravity.nextStep();
+			speedVector.setSpeed(speedVector.getSpeed() + (((Gravity)gravity).getStep() / THRESHOLD_GRAVITY_SPEED_UP)); 
+			//System.out.println(((Gravity)gravity).getStep());
+			//System.out.println("speed : " + speedVector.getSpeed());
 			speedVector.setDirection(new Point((int)speedVector.getDirection().getX(), (int)direction.getY())); // apply gravity
-			//System.out.println("Gravity is going");
 		}
 		
-		if(listKey.isEmpty() || !listKey.isEmpty() && listKey.get(listKey.size()-1) != KeyEvent.VK_UP){
+		//Strategy when Mario is climbing on a ladder  
+		if(!listKey.isEmpty() && listKey.get(listKey.size()-1) != KeyEvent.VK_UP){ //&& onOverlappableArea 
 			gravity.setOnGoing(true);
-			//System.out.println("Gravity on");
+			onOverlappableArea = false;
 		}
 		
-		//gravity.setOnGoing(true);
-		//System.out.println("Gravity on");
-		//System.out.println("speed vector : " +  speedVector.getDirection().getX() + "," + speedVector.getDirection().getY());
+		//System.out.println("speedVector : " + speedVector.getDirection().getX() + "," + speedVector.getDirection().getY());
 		return speedVector;
 	}
 
@@ -84,28 +87,37 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		int keycode = event.getKeyCode();
-		listKey.add(keycode);
-		switch (keycode) {
-			case KeyEvent.VK_RIGHT:
-				movement = prototype.getRight();
-				break;
-			case KeyEvent.VK_LEFT:
-				movement = prototype.getLeft();
-				break;
-			case KeyEvent.VK_UP:
-				if(upAllow){
-					//System.out.println("up");
-					movement = prototype.getUp();
-				}
-				break;
-			case KeyEvent.VK_DOWN:
-				movement = prototype.getDown();
-				break;
-			case KeyEvent.VK_SPACE:
-				if(movement == null || !movement.OnGoing() || listKey.get(0) != KeyEvent.VK_SPACE) // Not allow the multi jump
-					movement = prototype.getJump(speedVector);
-				break;
+		if(movement == null || !movement.OnGoing() || (!listKey.isEmpty() && listKey.get(listKey.size()-1) != KeyEvent.VK_SPACE)){ // Not allow the jump when Mario is falling ){			
+			int keycode = event.getKeyCode();
+			listKey.add(keycode);
+			switch (keycode) {
+				case KeyEvent.VK_RIGHT:
+					if(!gravity.OnGoing())
+						movement = prototype.getRight();
+					break;
+				case KeyEvent.VK_LEFT:
+					if(!gravity.OnGoing())
+						movement = prototype.getLeft();
+					break;
+				case KeyEvent.VK_UP:
+					if(onOverlappableArea){
+						movement = prototype.getUp();
+						onOverlappableArea = false;
+					}
+					break;
+				case KeyEvent.VK_DOWN:
+					if(!gravity.OnGoing())
+						movement = prototype.getDown();
+					break;
+				case KeyEvent.VK_SPACE:
+					//if(movement == null || !movement.OnGoing() || listKey.get(0) != KeyEvent.VK_SPACE) // Not allow the jump when Mario is falling 
+					//System.out.println(((Gravity) gravity).getStep());
+					//if(((Gravity) gravity).getStep() == 0)
+					//System.out.println("start jump : " + speedVectorSave.getDirection().getX() + "," + speedVectorSave.getDirection().getY());
+					if(!onOverlappableArea)
+						movement = prototype.getJump(speedVectorSave);
+					break;
+			}
 		}
 	}
 
@@ -120,7 +132,6 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 		
 		if(arg0 instanceof MarioOverlapRules){
 			onOverlappableArea = true;
-			upAllow = true;
 			//onBlock = false;
 		}
 		

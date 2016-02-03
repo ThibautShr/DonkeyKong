@@ -3,6 +3,7 @@ package gameframework.game;
 import gameframework.base.ObservableValue;
 
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * To be implemented with respect to a specific game. Expected to initialize the
@@ -32,7 +33,8 @@ public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 
 	// start of class Thread which calls the run method (see below) 
 	@Override
-	public void start() {  
+	public void start() {
+		
 		endOfGame = g.endOfGame();
 		init();
 		super.start();
@@ -45,6 +47,7 @@ public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 
 	@Override
 	public void run() {
+		
 		stopGameLoop = false;
 		// main game loop 
 		long start;

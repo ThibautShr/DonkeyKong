@@ -6,7 +6,7 @@ public class Jump extends MovementAbstract{
 
 	int step;
 	Point direction; 
-	public static final int MAX_STEP = 4;
+	public static final int MAX_STEP = 6;
 
 
 	public Jump(){
@@ -22,6 +22,7 @@ public class Jump extends MovementAbstract{
 	public Point nextStep(){
 		Point last_direction = this.getVector().getDirection();
 		
+		//System.out.println("x : " + last_direction.getX());
 		if(step < MAX_STEP / 2) // increase phase
 			direction.setLocation(last_direction.getX(), -1);
 		else if(step < MAX_STEP)// decrease phase
@@ -32,6 +33,7 @@ public class Jump extends MovementAbstract{
 		else
 			step++;
 		
+		//System.out.println("x : " + direction.getX() + ", y : " + direction.getY());
 		return direction;
 	}
 	

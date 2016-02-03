@@ -8,9 +8,10 @@ import java.awt.Rectangle;
 import gameframework.base.Drawable;
 import gameframework.base.Overlappable;
 import gameframework.game.GameEntity;
+import gameframework.game.GameMovable;
 import gameframework.game.SpriteManagerDefaultImpl;
 
-public class DonkeyKong implements Drawable, GameEntity,Overlappable {
+public class DonkeyKong extends GameMovable implements Drawable, GameEntity,Overlappable {
 	
 	protected boolean movable = false;
 	protected boolean active = true;
@@ -41,6 +42,11 @@ public class DonkeyKong implements Drawable, GameEntity,Overlappable {
 	public void draw(Graphics g) {
 		spriteManager.draw(g, getPosition());
 		spriteManager.increment();
+	}
+
+	@Override
+	public void oneStepMoveAddedBehavior() {
+		
 	}
 
 }
