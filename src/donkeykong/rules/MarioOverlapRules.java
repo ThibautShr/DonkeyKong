@@ -2,6 +2,7 @@ package donkeykong.rules;
 
 import java.awt.Point;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Vector;
 
 import donkeykong.entities.Barrel;
@@ -13,9 +14,11 @@ import donkeykong.entities.Platform;
 import gameframework.base.ObservableValue;
 import gameframework.base.Overlap;
 import gameframework.game.GameEntity;
+import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverse;
 import gameframework.game.IllegalMoveException;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
+import reimplementationFramework.StrategyPattern;
 
 public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 
@@ -63,4 +66,11 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 		endOfGame.setValue(false);
 		
 	}	
+	
+	public void overlapRule(Barrel b, Ladder l) {
+		System.out.println("OverlapRule : Barrel , Ladder");
+		GameMovableDriverDefaultImpl g = new GameMovableDriverDefaultImpl();
+		g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
+		b.setDriver(g);
+	}
 }
