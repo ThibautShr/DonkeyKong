@@ -52,7 +52,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 	
 	@Override
 	public Rectangle getBoundingBox() {
-		return (new Rectangle(0, 0, RENDERING_SIZE, NB_ELEMENT_BY_ROW));
+		return (new Rectangle(0, 0, RENDERING_SIZE, RENDERING_SIZE));
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 		lastSpriteType = spriteType;
 		
 		spriteManager.setType(spriteType);
-		System.out.println("Change mario position");
+		//System.out.println("Change mario position");
 		spriteManager.draw(g, getPosition());
 	}
 

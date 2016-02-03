@@ -1,5 +1,6 @@
 package donkeykong.rules;
 
+import donkeykong.entities.Barrel;
 import donkeykong.entities.Mario;
 import donkeykong.entities.Platform;
 import gameframework.game.IllegalMoveException;
@@ -15,4 +16,11 @@ public class MarioMoveBlockers extends MoveBlockerRulesApplierDefaultImpl{
 		notifyObservers();		
 		throw new IllegalMoveException();
 	}
+	
+	/*public void moveBlockerRule(Mario m, Barrel b) throws IllegalMoveException {
+		//setChanged();
+		//notifyObservers();		
+		System.out.println("choc");
+		throw new IllegalMoveException();
+	}*/
 }

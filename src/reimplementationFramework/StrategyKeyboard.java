@@ -40,26 +40,30 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 				speedVector.setDirection(movement.nextStep());
 			}
 			else{
+				//System.out.println(listKey.toString());
 				if(movement.getVector() == null || listKey.isEmpty())
 					speedVector.setDirection(new Point(0, 0));
-				else
-					speedVector = movement.getVector();
+				else{
+					//speedVector = movement.getVector();
+					speedVector.setDirection(new Point((int)movement.getVector().getDirection().getX(),0));
+				}
 			}
 		}
 		
 		if((movement == null || !movement.OnGoing()) && gravity.OnGoing()){ // && !onBlock && !onOverlappableArea
 			Point direction = gravity.nextStep();
 			speedVector.setDirection(new Point((int)speedVector.getDirection().getX(), (int)direction.getY())); // apply gravity
+			//System.out.println("Gravity is going");
 		}
 		
 		if(listKey.isEmpty() || !listKey.isEmpty() && listKey.get(listKey.size()-1) != KeyEvent.VK_UP){
 			gravity.setOnGoing(true);
-			System.out.println("Gravity on");
+			//System.out.println("Gravity on");
 		}
 		
 		//gravity.setOnGoing(true);
 		//System.out.println("Gravity on");
-		
+		//System.out.println("speed vector : " +  speedVector.getDirection().getX() + "," + speedVector.getDirection().getY());
 		return speedVector;
 	}
 
@@ -91,7 +95,7 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 				break;
 			case KeyEvent.VK_UP:
 				if(upAllow){
-					System.out.println("up");
+					//System.out.println("up");
 					movement = prototype.getUp();
 				}
 				break;
@@ -120,6 +124,6 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 			//onBlock = false;
 		}
 		
-		System.out.println("Gravity off");
+		//System.out.println("Gravity off");
 	}
 }

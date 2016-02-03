@@ -3,8 +3,10 @@ package donkeykong.rules;
 import java.awt.Point;
 import java.util.Vector;
 
+import donkeykong.entities.Barrel;
 import donkeykong.entities.Ladder;
 import donkeykong.entities.Mario;
+import donkeykong.entities.Peach;
 import donkeykong.entities.Platform;
 import gameframework.base.ObservableValue;
 import gameframework.base.Overlap;
@@ -37,9 +39,21 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 	
 	public void overlapRule(Mario m, Ladder l) {
-		System.out.println("ladder");
+		//System.out.println("ladder");
 		setChanged();
 		notifyObservers();
 	}
-
+	
+	public void overlapRule(Mario m, Barrel b){		
+		System.out.println("choc");
+		life.setValue(0);
+		endOfGame.setValue(false);
+	}
+	
+	public void overlapRule(Mario m, Peach p){		
+		System.out.println("fuck peach");
+		life.setValue(1);
+		endOfGame.setValue(true);
+	}
+	
 }

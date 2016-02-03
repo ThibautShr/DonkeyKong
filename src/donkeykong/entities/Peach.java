@@ -8,40 +8,36 @@ import java.awt.Rectangle;
 import gameframework.base.Drawable;
 import gameframework.base.Overlappable;
 import gameframework.game.GameEntity;
-import gameframework.game.MoveBlocker;
 import gameframework.game.SpriteManagerDefaultImpl;
 
-public class Barrel implements Drawable, GameEntity, Overlappable {
+public class Peach implements Drawable, GameEntity,Overlappable {
+
 	
-	protected boolean movable = true;
+	protected boolean movable = false;
 	protected boolean active = true;
-	//private Point position;
+	private Point position;
 	private final SpriteManagerDefaultImpl spriteManager;
-	public static final int RENDERING_SIZE = 16;
-	public static final int NB_ELEMENT_BY_ROW = 4;
-	int x, y;
+	public static final int RENDERING_SIZE = 30;
+	public static final int NB_ELEMENT_BY_ROW = 14;
 	
-	public Barrel(Canvas canvas , int x, int y) {
+	public Peach(Canvas canvas) {
 		
-		spriteManager = new SpriteManagerDefaultImpl("images/barrels.png",
+		spriteManager = new SpriteManagerDefaultImpl("images/peach.png",
 				canvas, RENDERING_SIZE, NB_ELEMENT_BY_ROW);
-		//this.position = (Point) position.clone();
-		this.x = x;
-		this.y = y;
+		// TODO Auto-generated constructor stub
 	}
 
 	public Rectangle getBoundingBox() {
-		return (new Rectangle(x, y, RENDERING_SIZE, RENDERING_SIZE));
+		return (new Rectangle(0, 0, RENDERING_SIZE, RENDERING_SIZE));
 	}
 
-	@Override
 	public Point getPosition() {
-		return new Point(x,y);
+		return position;
 	}
 	
-	/*public void setPosition(Point position) {
+	public void setPosition(Point position) {
 		this.position = position;
-	}*/
+	}
 
 	public void draw(Graphics g) {
 		spriteManager.draw(g, getPosition());

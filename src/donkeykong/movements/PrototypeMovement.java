@@ -38,6 +38,7 @@ public class PrototypeMovement {
 	public Movement getJump(SpeedVector v){
 		jump.init();
 		jump.setVector((SpeedVector) v.clone());
+		//System.out.println("init jump : " +  v.getDirection().getX() + "," + v.getDirection().getY());
 		return jump;
 	}
 	

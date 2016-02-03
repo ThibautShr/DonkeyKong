@@ -45,5 +45,11 @@ public class Pattern implements Movement {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void setOnGoing(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

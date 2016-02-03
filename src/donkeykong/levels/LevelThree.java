@@ -1,19 +1,31 @@
 package donkeykong.levels;
 
 import gameframework.game.Game;
-import gameframework.game.GameLevelDefaultImpl;
 
-public class LevelThree extends GameLevelDefaultImpl implements Level{
+public class LevelThree extends LevelAbstract{
 
+	public static final String BACKGROUND = "background_stone.png";
+	public static final String LADDER = "ladder_stone.png";
+	public static final String PLATFORM = "platform_stone.png";
+	
 	public LevelThree(Game g) {
 		super(g);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected void init() {
-		// TODO Auto-generated method stub
-		
+	public void init() {
+		addRules();
+		drawGameBoard();
+		addPlatforms(7);
+		addLadders(6);
+		try {
+			addEntities(BACKGROUND,LADDER,PLATFORM);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		addMario();
+		addDonkeyKong();
+		addPeach();
 	}
 
 }

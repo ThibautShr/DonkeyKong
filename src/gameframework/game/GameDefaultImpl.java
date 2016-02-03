@@ -225,6 +225,7 @@ public class GameDefaultImpl implements Game, Observer {
 	public void update(Observable o, Object arg) {
 		if (o == endOfGame) {
 			if (endOfGame.getValue()) {
+				System.out.println("you win");
 				informationValue.setText("You win");
 				currentPlayedLevel.interrupt();
 				currentPlayedLevel.end();
@@ -235,6 +236,7 @@ public class GameDefaultImpl implements Game, Observer {
 					int lives = ((ObservableValue<Integer>) o).getValue();
 					lifeValue.setText(Integer.toString(lives));
 					if (lives == 0) {
+						System.out.println("you loose");
 						informationValue.setText("Defeat");
 						currentPlayedLevel.interrupt();
 						currentPlayedLevel.end();
