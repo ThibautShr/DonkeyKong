@@ -28,7 +28,7 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 	protected boolean upAllow = false;
 	
 	public static final int SPEED_UP= 6;
-	public static final int THRESHOLD_SPEED_UP = 16;
+	public static final int THRESHOLD_SPEED_UP = 5;
 	
 	public SpeedVector getSpeedVector() {
 

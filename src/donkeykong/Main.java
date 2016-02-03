@@ -11,7 +11,6 @@ public class Main {
 	public static void main(String[] args) {
 		GameDefaultImpl g = new GameDefaultImpl();
 		ArrayList<GameLevel> levels = new ArrayList<GameLevel>();
-
 		LevelOne l1 = new LevelOne(g);
 		LevelTwo l2 = new LevelTwo(g);
 		LevelThree l3 = new LevelThree(g);

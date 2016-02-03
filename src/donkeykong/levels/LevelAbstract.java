@@ -13,9 +13,11 @@ import donkeykong.entities.Mario;
 import donkeykong.entities.Peach;
 import donkeykong.entities.Platform;
 import donkeykong.entities.PrototypeEntities;
+import donkeykong.movements.PrototypeMovementDefaultImpl;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;
 import gameframework.base.DrawableImage;
+import gameframework.base.SpeedVectorDefaultImpl;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
 import gameframework.game.GameLevelDefaultImpl;
@@ -27,6 +29,7 @@ import gameframework.game.MoveBlockerCheckerDefaultImpl;
 import gameframework.game.OverlapProcessor;
 import gameframework.game.OverlapProcessorDefaultImpl;
 import reimplementationFramework.StrategyKeyboard;
+import reimplementationFramework.StrategyPattern;
 
 public abstract class LevelAbstract extends GameLevelDefaultImpl implements Level{
 	
@@ -265,6 +268,28 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		int dkHeight = (int) dk.getBoundingBox().getHeight();
 		dk.setPosition(new Point(1 * SPRITE_SIZE, (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE - dkHeight));
 		universe.addGameEntity(dk);
+	}
+	
+	public void addBarrel(){
+		//GameMovableDriverDefaultImpl barrelDriver = new GameMovableDriverDefaultImpl();
+		GameMovableDriverDefaultImpl marioDriver = new GameMovableDriverDefaultImpl();
+		StrategyKeyboard keyStr = new StrategyKeyboard();
+		marioMoveBlockers.addObserver((Observer)keyStr);
+		marioOverlapRules.addObserver((Observer)keyStr);
+		
+		marioDriver.setStrategy(keyStr);
+		marioDriver.setmoveBlockerChecker(moveBlockerChecker);
+		canvas.addKeyListener(keyStr);
+		Barrel b = new Barrel(canvas,new PrototypeMovementDefaultImpl());
+		b.setDriver(marioDriver);
+		//StrategyPattern sp = new StrategyPattern(b.getMoveRight(), new SpeedVectorDefaultImpl(new Point(0,0)));
+		//barrelDriver.setStrategy(sp);
+		//barrelDriver.setmoveBlockerChecker(moveBlockerChecker);
+		//b.setDriver(barrelDriver);
+		int barrelHeight = (int) b.getBoundingBox().getHeight();
+		b.setPosition(new Point(2 * SPRITE_SIZE , (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE  - barrelHeight));
+		//System.out.println(b.getX() + " " + b.getY());
+		universe.addGameEntity(b);
 	}
 
 	public void addPeach(){

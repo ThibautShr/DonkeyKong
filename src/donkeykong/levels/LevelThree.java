@@ -26,6 +26,7 @@ public class LevelThree extends LevelAbstract{
 		addMario();
 		addDonkeyKong();
 		addPeach();
+		addBarrel();
 	}
 
 }
