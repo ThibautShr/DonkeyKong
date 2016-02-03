@@ -28,6 +28,9 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		} catch(NullPointerException e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -36,6 +39,9 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 			return (Down) down.clone();
 		} catch (CloneNotSupportedException e) {
 			
+			e.printStackTrace();
+			return null;
+		}catch(NullPointerException e){
 			e.printStackTrace();
 			return null;
 		}
@@ -49,6 +55,9 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -58,6 +67,9 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 			return (Right) right.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}catch(NullPointerException e){
 			e.printStackTrace();
 			return null;
 		}
@@ -73,7 +85,10 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		}	
+		}	catch(NullPointerException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public Movement getGravity(){
@@ -81,6 +96,9 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 			return (Gravity) gravity.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}catch(NullPointerException e){
 			e.printStackTrace();
 			return null;
 		}

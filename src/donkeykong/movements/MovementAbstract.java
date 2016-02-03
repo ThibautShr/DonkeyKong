@@ -37,7 +37,11 @@ public abstract class MovementAbstract implements Movement{
 		try {
 			m = (Movement) super.clone();
 			m.setOnGoing(onGoing);
-			m.setVector((SpeedVector)v.clone());
+			if(v != null)
+				m.setVector((SpeedVector)v.clone());
+			else{
+				m.setVector(null);
+			}
 			return m;
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
