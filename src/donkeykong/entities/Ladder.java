@@ -10,41 +10,28 @@ import gameframework.base.DrawableImage;
 import gameframework.base.Overlappable;
 import gameframework.game.GameEntity;
 
-public class Ladder implements Drawable, GameEntity, Overlappable, Cloneable {
-	private DrawableImage image = null;
-	private Point position;
+public class Ladder extends StaticEntity implements Cloneable {
 	public static final int RENDERING_SIZE = 16;
 
 	public Ladder(Canvas defaultCanvas, Point position) {
-		image = new DrawableImage("images/ladder_jungle.png", defaultCanvas);
-		this.position = position;
+		super();
+		this.setImage(new DrawableImage("images/ladder_jungle.png", defaultCanvas));
+		this.setPosition(position);
 	}
-	
-	public void setImage(DrawableImage image){
-		this.image = image;
+		
+	public void draw(Graphics g) {
+		g.drawImage(this.getImage().getImage(), (int) getPosition().getX(),
+				(int) getPosition().getY(), RENDERING_SIZE, RENDERING_SIZE,
+				null);
+
 	}
 	
 	public Ladder clone() throws CloneNotSupportedException{
 		return (Ladder) super.clone();
 	}
 
-	public Point getPosition() {
-		return position;
-	}
-
-	public void setPosition(Point position) {
-		this.position = position;
-	}
-	
-	public void draw(Graphics g) {
-		g.drawImage(image.getImage(), (int) getPosition().getX(),
-				(int) getPosition().getY(), RENDERING_SIZE, RENDERING_SIZE,
-				null);
-
-	}
-
 	public Rectangle getBoundingBox() {
-		return (new Rectangle((int) position.getX() + RENDERING_SIZE/2, (int) position.getY() + RENDERING_SIZE/2,
-				RENDERING_SIZE/4, RENDERING_SIZE/4));
+		return (new Rectangle((int) this.getPosition().getX(), (int) this.getPosition().getY(),
+				RENDERING_SIZE, RENDERING_SIZE));
 	}
 }
