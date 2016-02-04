@@ -3,22 +3,12 @@ package donkeykong.levels;
 import java.awt.Canvas;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import donkeykong.entities.BackGround;
-import donkeykong.entities.Barrel;
-import donkeykong.entities.DonkeyKong;
-import donkeykong.entities.Hole;
-import donkeykong.entities.Ladder;
-import donkeykong.entities.Mario;
-import donkeykong.entities.Peach;
-import donkeykong.entities.Platform;
-import donkeykong.entities.PrototypeEntities;
-import donkeykong.entities.Wall;
+import donkeykong.entities.*;
 import donkeykong.movements.PrototypeMovementDefaultImpl;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;
@@ -98,7 +88,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 			while(entity.hasNext()){
 				GameEntity gameEntity = entity.next();
 				universe.removeGameEntity(gameEntity);
-				System.out.println("remove entity");
 			}
 		}
 	}
@@ -143,7 +132,9 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addBlock(int nb){
 		int platformIndex;
 		while(nb > 0){
-			platformIndex = (int) (Math.random() * (indexPlatforms.size() - 2)); //We can't make a block on the donkey platform
+			int max = indexPlatforms.size() - 2;
+			int min = 1;
+			platformIndex = (int) (Math.random() * (max - min) + min); //We can't make a block on the Donkey and Mario  platform
 			makeBlock(indexPlatforms.get(platformIndex));
 			nb--;
 		}
@@ -167,7 +158,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 			minInterval = (int) Math.ceil(averageInterval);
 			assert(minInterval < MIN_COLUMN_HEIGHT);
 			maxInterval = numberLinesRemaining - nbPlatformRemaining - MIN_COLUMN_HEIGHT * nbPlatformRemaining;
-			//System.out.println("min : " + minInterval + " , max : " + maxInterval);
 			randomInterval = (int) (Math.random() * (maxInterval - minInterval) + minInterval);
 			currentPlatformLine -= randomInterval + 1;
 			makeHorizontalLine(PLATFORM,currentPlatformLine);
@@ -178,7 +168,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 
 	public void makeLadder(int i, int j){
 		int randomColumn = (int) (Math.random() * (NB_COLUMNS - 3 - WEIGHT_LADDER) + 1);
-		System.out.println(randomColumn);
 		while(i > j){
 			tab[i][randomColumn] = LADDER;
 			for(int k = 1;k < WEIGHT_LADDER;++k)
@@ -196,7 +185,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	
 	public void addLadders(int nbLadders){
 		assert(nbLadders >= indexPlatforms.size());
-		//System.out.println(indexPlatforms.toString());
 		int laddersRemaining = nbLadders;
 		int end, platformIndex;
 		int i=0;
@@ -207,9 +195,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 				platformIndex = (int) (Math.random() * (indexPlatforms.size() - 1));
 			
 			end = getUnderLimit(platformIndex);
-			//System.out.println("make ladder");
 			makeLadder(indexPlatforms.get(platformIndex) - 1, end);
-			//System.out.println("end make ladder");
 			i++;
 			laddersRemaining--;
 		}
@@ -226,13 +212,12 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		makeHole(indexPlatforms.get(0),1,HOLE_SIZE);
 		makeHole(indexPlatforms.get(0),NB_COLUMNS -1 - HOLE_SIZE,HOLE_SIZE);
 		
-		int holesRemaining = nb;
 		int platformIndex, holePosition;
-		while(holesRemaining > 0){
+		while(nb > 0){
 			platformIndex = (int) (Math.random() * (indexPlatforms.size() - 1) + 1);
 			holePosition = (int) (Math.random() * (NB_COLUMNS - 1));
 			makeHole(indexPlatforms.get(platformIndex),holePosition, HOLE_SIZE);
-			holesRemaining--;
+			nb--;
 		}
 		
 	}
@@ -274,16 +259,12 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 			for (int j = 0; j < NB_COLUMNS; ++j) {
 				switch(tab[i][j]){
 					case BACKGRAND : 
-						//System.out.println("Hole");
-						//universe.addGameEntity(new BackGround(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
 						background = prototypeEntities.getBackground();
 						background.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
 						background.setImage(backgroundDrawableImage);
 						universe.addGameEntity(background);
 						break;
 					case PLATFORM :
-						//System.out.println("Platform");
-						//universe.addGameEntity(new Platform(canvas, j * SPRITE_SIZE, i * SPRITE_SIZE));
 						platform = prototypeEntities.getPlatform();
 						platform.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
 						platform.setImage(platformDrawableImage);
@@ -296,14 +277,12 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 						universe.addGameEntity(wall);
 						break;
 					case LADDER :
-						//universe.addGameEntity(new Ladder(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
 						ladder = prototypeEntities.getLadder();
 						ladder.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
 						ladder.setImage(ladderDrawableImage);
 						universe.addGameEntity(ladder);
 						break;
 					case HOLE :
-						//universe.addGameEntity(new Ladder(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
 						hole = prototypeEntities.getHole();
 						hole.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
 						hole.setImage(holeDrawableImage);
@@ -311,9 +290,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 						break;
 				}
 			}
-		}	
-		
-		//universe.addGameEntity(new Barrel(canvas, 10 * SPRITE_SIZE ,29 * SPRITE_SIZE));
+		}
 		
 	}
 	
@@ -336,7 +313,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addDonkeyKong(){
 		DonkeyKong dk = new DonkeyKong(canvas);
 		int dkHeight = (int) dk.getBoundingBox().getHeight();
-		//dk.setPosition(new Point(10 * SPRITE_SIZE, 25 * SPRITE_SIZE));
 		dk.setPosition(new Point(1 * SPRITE_SIZE, (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE - dkHeight));
 		universe.addGameEntity(dk);
 	}
@@ -344,22 +320,9 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addBarrel(int nb){
 		for(int i=0; i<nb; ++i){
 			GameDriverReimplDefault barrelDriver = new GameDriverReimplDefault();
-			//GameMovableDriverDefaultImpl marioDriver = new GameMovableDriverDefaultImpl();
-			//StrategyKeyboard keyStr = new StrategyKeyboard();
-			//marioMoveBlockers.addObserver((Observer)keyStr);
-			//marioOverlapRules.addObserver((Observer)keyStr);
-			
-			/*marioDriver.setStrategy(keyStr);
-			marioDriver.setmoveBlockerChecker(moveBlockerChecker);
-			canvas.addKeyListener(keyStr);*/
-			
 			Barrel b = new Barrel(canvas,new PrototypeMovementDefaultImpl());
-			//b.setDriver(marioDriver);
 			
 			StrategyPattern sp = new StrategyPattern(b.getMoveRight(), new SpeedVectorDefaultImpl(new Point(0,0)));
-	
-			//marioMoveBlockers.addObserver((Observer)sp);
-			//marioOverlapRules.addObserver((Observer)sp);
 			
 			barrelDriver.setStrategy(sp);
 			barrelDriver.setmoveBlockerChecker(moveBlockerChecker);
@@ -367,7 +330,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 			
 			int barrelHeight = (int) b.getBoundingBox().getHeight();
 			b.setPosition(new Point(20 * i + 2 * SPRITE_SIZE , (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE  - barrelHeight));
-			//System.out.println(b.getX() + " " + b.getY());
 			universe.addGameEntity(b);
 		}
 	}
@@ -375,7 +337,6 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addPeach(){
 		Peach peach = new Peach(canvas);
 		int peachHeight = (int) peach.getBoundingBox().getHeight();
-		//peach.setPosition(new Point(10 * SPRITE_SIZE, 28 * SPRITE_SIZE));
 		peach.setPosition((new Point(10 * SPRITE_SIZE, (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE - peachHeight)));
 		universe.addGameEntity(peach);
 	}

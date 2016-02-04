@@ -1,7 +1,5 @@
 package donkeykong.movements;
 
-import java.awt.Point;
-
 import gameframework.base.SpeedVector;
 
 public abstract class MovementAbstract implements Movement{

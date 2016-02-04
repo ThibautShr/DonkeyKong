@@ -12,9 +12,6 @@ import gameframework.base.Overlappable;
 import gameframework.base.SpeedVector;
 import gameframework.game.GameEntity;
 import gameframework.game.GameMovable;
-import gameframework.game.GameMovableDriver;
-import gameframework.game.GameMovableDriverDefaultImpl;
-import gameframework.game.MoveBlocker;
 import gameframework.game.SpriteManagerDefaultImpl;
 import reimplementationFramework.GameDriverReimplDefault;
 
@@ -126,6 +123,14 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 
 	public Movement getMoveLeft() {
 		return moveLeft;
+	}
+	
+	public Movement getHorizontalRandomMove(){
+		int random = (int) (Math.random() * 10);
+		if(random%2 == 0)
+			return moveRight;
+		else
+			return moveLeft;
 	}
 
 	@Override

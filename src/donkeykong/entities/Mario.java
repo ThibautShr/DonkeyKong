@@ -4,10 +4,6 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
-import javax.sound.midi.Synthesizer;
-
-import donkeykong.movements.Jump;
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;
 import gameframework.base.Overlappable;
@@ -25,9 +21,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 	public static final int RENDERING_SIZE = 16;
 	public static final int NB_ELEMENT_BY_ROW = 5;
 	private Point position;
-	private SpeedVector lastSpeedVector;
 	private String lastSpriteType;
-	private Jump jump;
 	
 	public static final int START_X = 5;
 	public static final int START_Y = 29;

@@ -1,23 +1,14 @@
 package donkeykong.rules;
 
 import java.awt.Point;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Vector;
-
 import donkeykong.entities.Barrel;
 import donkeykong.entities.DonkeyKong;
 import donkeykong.entities.Hole;
 import donkeykong.entities.Ladder;
 import donkeykong.entities.Mario;
 import donkeykong.entities.Peach;
-import donkeykong.entities.Platform;
 import gameframework.base.ObservableValue;
-import gameframework.base.Overlap;
-import gameframework.game.GameEntity;
-import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverse;
-import gameframework.game.IllegalMoveException;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
 import reimplementationFramework.GameDriverReimplDefault;
 import reimplementationFramework.StrategyPattern;
@@ -47,29 +38,22 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 	
 	public void overlapRule(Mario m, Ladder l) {
-		//System.out.println("ladder");
 		setChanged();
 		notifyObservers();
 	}
 	
 	public void overlapRule(Mario m, Barrel b){	
-		System.out.println("Loose (Barrel)");
-		/*life.setValue(0);
-		endOfGame.setValue(false);*/
 		m.initPosition();
 		universe.removeGameEntity(b);
-
 	}
 	
 	public void overlapRule(Mario m, Peach p){
 		life.setValue(1);
+		score.setValue(5);
 		endOfGame.setValue(true);
 	}
 	
 	public void overlapRule(Mario m, DonkeyKong dk){
-		System.out.println("Loose (Dk)");
-		/*life.setValue(0);
-		endOfGame.setValue(false);*/
 		m.initPosition();
 	}	
 

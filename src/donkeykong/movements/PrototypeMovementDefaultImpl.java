@@ -48,7 +48,7 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 	}
 	
 	public Movement getLeft(){
-		
+		System.out.println("Left");
 		try {
 			return (Left) left.clone();
 		} catch (CloneNotSupportedException e) {
@@ -62,7 +62,7 @@ public class PrototypeMovementDefaultImpl implements PrototypeMovement {
 	}
 	
 	public Movement getRight(){
-		
+		System.out.println("Right");
 		try {
 			return (Right) right.clone();
 		} catch (CloneNotSupportedException e) {

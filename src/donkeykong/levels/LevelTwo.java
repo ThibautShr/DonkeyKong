@@ -31,6 +31,5 @@ public class LevelTwo extends LevelAbstract{
 		addDonkeyKong();
 		addPeach();
 		setTimeInterval(4000);
-		addBarrel(1);
 	}
 }
