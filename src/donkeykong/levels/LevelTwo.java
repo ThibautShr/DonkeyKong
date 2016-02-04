@@ -30,6 +30,7 @@ public class LevelTwo extends LevelAbstract{
 		addMario();
 		addDonkeyKong();
 		addPeach();
+		setTimeInterval(4000);
 		addBarrel(1);
 	}
 }

@@ -28,6 +28,7 @@ public class LevelThree extends LevelAbstract{
 		addMario();
 		addDonkeyKong();
 		addPeach();
+		setTimeInterval(3000);
 		addBarrel(1);
 	}
 }

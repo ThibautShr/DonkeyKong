@@ -28,6 +28,9 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 	private SpeedVector lastSpeedVector;
 	private String lastSpriteType;
 	private Jump jump;
+	
+	public static final int START_X = 5;
+	public static final int START_Y = 29;
 
 	public Mario(Canvas defaultCanvas) {
 		spriteManager = new SpriteManagerDefaultImpl("images/mario.png",
@@ -48,6 +51,10 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+	
+	public void initPosition(){
+		this.position = new Point( START_X * RENDERING_SIZE, START_Y * RENDERING_SIZE);
 	}
 	
 	@Override
