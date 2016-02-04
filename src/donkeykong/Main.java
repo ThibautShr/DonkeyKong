@@ -14,7 +14,7 @@ public class Main {
 		LevelOne l1 = new LevelOne(g);
 		LevelTwo l2 = new LevelTwo(g);
 		LevelThree l3 = new LevelThree(g);
-		
+
 		levels.add(l1);
 		levels.add(l2);
 		levels.add(l3);

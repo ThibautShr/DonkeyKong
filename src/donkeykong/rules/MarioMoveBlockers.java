@@ -80,7 +80,6 @@ public class MarioMoveBlockers extends MoveBlockerRulesApplierDefaultImpl{
 		GameDriverReimplDefault g = b.getDriver();
 		
 		if(b.getSpeedVector().getDirection().getY() == 1){
-			//System.out.println("top");
 			int random = (int) (Math.random() * 10);
 			if(random%2 == 0)
 				g.setStrategy(new StrategyPattern(b.getMoveRight(), b.getSpeedVector()));

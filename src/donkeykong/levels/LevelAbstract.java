@@ -3,8 +3,11 @@ package donkeykong.levels;
 import java.awt.Canvas;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import donkeykong.entities.BackGround;
 import donkeykong.entities.Barrel;
@@ -67,6 +70,20 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		canvas = g.getCanvas();
 	}
 	
+	public void run(){
+		TimerTask timerBarrel = new TimerTask() {
+            @Override
+            public void run() {
+                addBarrel(1);
+            }
+        };
+		
+		Timer timer = new Timer("Barrel Timer");
+		timer.scheduleAtFixedRate(timerBarrel, 30, 3000);
+		
+		super.run();
+	}
+	
 	public void initUniverse(){
 		if(universe != null){
 			Iterator<GameEntity> entity = universe.gameEntities();
@@ -82,7 +99,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		tab = new int[NB_ROWS][NB_COLUMNS];
 		for(int i=0; i<NB_ROWS; ++i){
 			for(int j=0; j<NB_COLUMNS; ++j){
-				if(j==0 || j==NB_COLUMNS - 1)
+				if((j==0 || j==NB_COLUMNS - 1) && i != NB_ROWS - 2)
 					tab[i][j] = WALL;
 				else
 					tab[i][j] = BACKGRAND;
@@ -103,6 +120,25 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void makeVerticalLine(int val, int column){
 		for(int i=0; i<NB_ROWS; ++i){
 			tab[i][column] = val;
+		}
+	}
+	
+	public void makeBlock(int line){
+		int column;
+		do{
+			column = (int) (Math.random() * (NB_COLUMNS - 3)) + 1;
+		}while(tab[line][column] == LADDER || tab[line][column] == HOLE);
+		
+		tab[line-1][column] = PLATFORM;
+		System.out.println("end make block !!!");
+	}
+	
+	public void addBlock(int nb){
+		int platformIndex;
+		while(nb > 0){
+			platformIndex = (int) (Math.random() * (indexPlatforms.size() - 2)); //We can't make a block on the donkey platform
+			makeBlock(indexPlatforms.get(platformIndex));
+			nb--;
 		}
 	}
 	
@@ -134,19 +170,8 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	}
 
 	public void makeLadder(int i, int j){
-		int randomColumn = (int) (Math.random() * NB_COLUMNS - 2 - WEIGHT_LADDER) + 1;
-		
-		int secondColumn = randomColumn;
-		if(randomColumn == NB_COLUMNS - 1)
-			secondColumn--;
-		else
-			secondColumn++;
-
-		/*if(i != NB_ROWS-1){
-			tab[i+1][randomColumn] = WALL;
-			tab[i+1][secondColumn] = WALL;
-		}*/
-		
+		int randomColumn = (int) (Math.random() * (NB_COLUMNS - 3 - WEIGHT_LADDER) + 1);
+		System.out.println(randomColumn);
 		while(i > j){
 			tab[i][randomColumn] = LADDER;
 			for(int k = 1;k < WEIGHT_LADDER;++k)
@@ -175,8 +200,9 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 				platformIndex = (int) (Math.random() * (indexPlatforms.size() - 1));
 			
 			end = getUnderLimit(platformIndex);
-			
+			//System.out.println("make ladder");
 			makeLadder(indexPlatforms.get(platformIndex) - 1, end);
+			//System.out.println("end make ladder");
 			i++;
 			laddersRemaining--;
 		}

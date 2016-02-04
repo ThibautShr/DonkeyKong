@@ -12,7 +12,7 @@ public class Pattern implements Movement {
 	private List<Movement> pattern;
 	private PrototypeMovement protoMvt;
 	private boolean onGoing;
-	Iterator<Movement> ite;
+	private Iterator<Movement> ite;
 	private Movement current;
 	
 	public Pattern(PrototypeMovement pm){
