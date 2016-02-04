@@ -36,7 +36,6 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 		
 		spriteManager = new SpriteManagerDefaultImpl("images/barrels.png",
 				canvas, RENDERING_SIZE, NB_ELEMENT_BY_ROW);
-		//this.position = (Point) position.clone();
 		position = new Point(0, 0);
 		moveRight = pm.getRight();
 		moveLeft = pm.getLeft();
