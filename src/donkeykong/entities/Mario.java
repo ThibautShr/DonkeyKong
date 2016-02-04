@@ -24,7 +24,7 @@ public class Mario extends GameMovable implements Drawable, GameEntity, Overlapp
 	private String lastSpriteType;
 	
 	public static final int START_X = 5;
-	public static final int START_Y = 29;
+	public static final int START_Y = 27;
 
 	public Mario(Canvas defaultCanvas) {
 		spriteManager = new SpriteManagerDefaultImpl("images/mario.png",

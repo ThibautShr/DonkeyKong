@@ -2,17 +2,21 @@ package reimplementationFramework;
 
 import java.awt.Point;
 
+import donkeykong.movements.FactoryMovement;
+import donkeykong.movements.AbstractFactoryMovement;
 import donkeykong.movements.Movement;
 import donkeykong.movements.PrototypeMovement;
-import donkeykong.movements.PrototypeMovementDefaultImpl;
 import gameframework.base.MoveStrategy;
 import gameframework.base.SpeedVector;
 import gameframework.base.SpeedVectorDefaultImpl;
 
 public class StrategyPattern implements MoveStrategy{
 	
-	protected PrototypeMovement prototype = new PrototypeMovementDefaultImpl();
-	protected Movement gravity = prototype.getGravity();
+	protected FactoryMovement factoryMovement = new PrototypeMovement(); // Pattern Protoype  
+	//protected FactoryMovement factoryMovement = new AbstractFactoryMovement(); // Pattern Factory
+
+	
+	protected Movement gravity = factoryMovement.getGravity();
 	protected boolean onOverlappableArea = false;
 
 	protected int cptOverlappableArea = 0;

@@ -1,6 +1,9 @@
 package donkeykong.movements;
 
+import java.awt.Point;
+
 import gameframework.base.SpeedVector;
+import gameframework.base.SpeedVectorDefaultImpl;
 
 public abstract class MovementAbstract implements Movement{
 	private boolean onGoing;
@@ -12,6 +15,7 @@ public abstract class MovementAbstract implements Movement{
 	
 	public void init() {
 		onGoing = true;
+		v = new SpeedVectorDefaultImpl(new Point(0,0));
 	}
 	
 	public SpeedVector getVector() {

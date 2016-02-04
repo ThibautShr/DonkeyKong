@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import donkeykong.movements.FactoryMovement;
 import donkeykong.movements.Movement;
-import donkeykong.movements.PrototypeMovement;
 import gameframework.base.Drawable;
 import gameframework.base.Overlappable;
 import gameframework.base.SpeedVector;
@@ -29,7 +29,7 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 	private Movement moveDown;
 	private Movement moveLeft;
 	
-	public Barrel(Canvas canvas , PrototypeMovement pm) {
+	public Barrel(Canvas canvas , FactoryMovement pm) {
 		
 		spriteManager = new SpriteManagerDefaultImpl("images/barrels.png",
 				canvas, RENDERING_SIZE, NB_ELEMENT_BY_ROW);

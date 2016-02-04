@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import donkeykong.entities.*;
-import donkeykong.movements.PrototypeMovementDefaultImpl;
+import donkeykong.movements.PrototypeMovement;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;
 import gameframework.base.DrawableImage;
@@ -65,6 +65,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	}
 	
 	public void run(){
+		
 		TimerTask timerBarrel = new TimerTask() {
             @Override
             public void run() {
@@ -259,33 +260,23 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 			for (int j = 0; j < NB_COLUMNS; ++j) {
 				switch(tab[i][j]){
 					case BACKGRAND : 
-						background = prototypeEntities.getBackground();
-						background.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
-						background.setImage(backgroundDrawableImage);
+						background = prototypeEntities.getBackground(backgroundDrawableImage, j* SPRITE_SIZE, i* SPRITE_SIZE);
 						universe.addGameEntity(background);
 						break;
 					case PLATFORM :
-						platform = prototypeEntities.getPlatform();
-						platform.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
-						platform.setImage(platformDrawableImage);
+						platform = prototypeEntities.getPlatform(platformDrawableImage, j * SPRITE_SIZE,i* SPRITE_SIZE);
 						universe.addGameEntity(platform);
 						break;
 					case WALL :
-						wall = prototypeEntities.getWall();
-						wall.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
-						wall.setImage(wallDrawableImage);
+						wall = prototypeEntities.getWall(wallDrawableImage, j * SPRITE_SIZE,i* SPRITE_SIZE);
 						universe.addGameEntity(wall);
 						break;
 					case LADDER :
-						ladder = prototypeEntities.getLadder();
-						ladder.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
-						ladder.setImage(ladderDrawableImage);
+						ladder = prototypeEntities.getLadder(ladderDrawableImage, j * SPRITE_SIZE,i* SPRITE_SIZE);
 						universe.addGameEntity(ladder);
 						break;
 					case HOLE :
-						hole = prototypeEntities.getHole();
-						hole.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
-						hole.setImage(holeDrawableImage);
+						hole = prototypeEntities.getHole(holeDrawableImage, j * SPRITE_SIZE,i* SPRITE_SIZE);
 						universe.addGameEntity(hole);
 						break;
 				}
@@ -320,7 +311,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addBarrel(int nb){
 		for(int i=0; i<nb; ++i){
 			GameDriverReimplDefault barrelDriver = new GameDriverReimplDefault();
-			Barrel b = new Barrel(canvas,new PrototypeMovementDefaultImpl());
+			Barrel b = new Barrel(canvas,new PrototypeMovement());
 			
 			StrategyPattern sp = new StrategyPattern(b.getMoveRight(), new SpeedVectorDefaultImpl(new Point(0,0)));
 			

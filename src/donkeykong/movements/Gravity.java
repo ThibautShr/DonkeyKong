@@ -13,7 +13,6 @@ public class Gravity extends MovementAbstract{
 	
 	@Override
 	public Point nextStep() {
-		System.out.println("gravity");
 		step++;
 		return new Point(0, 1);
 	}

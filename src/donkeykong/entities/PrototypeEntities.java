@@ -3,8 +3,12 @@ package donkeykong.entities;
 import java.awt.Canvas;
 import java.awt.Point;
 
+import gameframework.base.DrawableImage;
+
 public class PrototypeEntities {
 
+	Canvas canvas;
+	
 	BackGround background;
 	Barrel barrel;
 	DonkeyKong dk;
@@ -14,71 +18,43 @@ public class PrototypeEntities {
 	Wall wall;
 	Hole hole;
 	
-	public Wall getWall() throws CloneNotSupportedException {
-		return wall.clone();
+	public Wall getWall(DrawableImage img, int x, int y) throws CloneNotSupportedException{
+		Wall w = wall.clone();
+		w.setPosition(new Point(x,y));
+		w.setImage(img);
+		return w;
 	}
 
-	public void setWall(Wall wall) {
-		this.wall = wall;
+	public BackGround getBackground(DrawableImage img, int x, int y) throws CloneNotSupportedException {
+		BackGround b = background.clone();
+		b.setPosition(new Point(x,y));
+		b.setImage(img);
+		return b;
 	}
 
-	public BackGround getBackground() throws CloneNotSupportedException {
-		return background.clone();
+	public Ladder getLadder(DrawableImage img, int x, int y) throws CloneNotSupportedException{
+		Ladder l = ladder.clone();
+		l.setPosition(new Point(x,y));
+		l.setImage(img);
+		return l;
 	}
 
-	public void setBackground(BackGround background) {
-		this.background = background;
+	public Platform getPlatform(DrawableImage img, int x, int y) throws CloneNotSupportedException{
+		Platform p = platform.clone();
+		p.setPosition(new Point(x,y));
+		p.setImage(img);
+		return p;
 	}
 
-	public Barrel getBarrel() {
-		return barrel;
-	}
-
-	public void setBarrel(Barrel barrel) {
-		this.barrel = barrel;
-	}
-
-	public DonkeyKong getDk() {
-		return dk;
-	}
-
-	public void setDk(DonkeyKong dk) {
-		this.dk = dk;
-	}
-
-	public Ladder getLadder() throws CloneNotSupportedException {
-		return ladder.clone();
-	}
-
-	public void setLadder(Ladder ladder) {
-		this.ladder = ladder;
-	}
-
-	public Mario getMario() {
-		return mario;
-	}
-
-	public void setMario(Mario mario) {
-		this.mario = mario;
-	}
-
-	public Platform getPlatform() throws CloneNotSupportedException {
-		return platform.clone();
-	}
-
-	public void setPlatform(Platform platform) {
-		this.platform = platform;
-	}
-
-	public Hole getHole() throws CloneNotSupportedException {
-		return hole.clone();
-	}
-
-	public void setHole(Hole hole) {
-		this.hole = hole;
+	public Hole getHole(DrawableImage img, int x, int y) throws CloneNotSupportedException{
+		Hole h = hole.clone();
+		h.setPosition(new Point(x,y));
+		h.setImage(img);
+		return h;
 	}
 	
 	public PrototypeEntities(Canvas canvas){
+		this.canvas = canvas;
 		background = new BackGround(canvas, new Point(0, 0));
 		hole = new Hole(canvas, new Point(0, 0));
 		ladder = new Ladder(canvas, new Point(0, 0));

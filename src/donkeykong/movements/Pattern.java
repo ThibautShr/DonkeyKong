@@ -10,12 +10,12 @@ import gameframework.base.SpeedVector;
 public class Pattern implements Movement {
 
 	private List<Movement> pattern;
-	private PrototypeMovement protoMvt;
+	private FactoryMovement protoMvt;
 	private boolean onGoing;
 	private Iterator<Movement> ite;
 	private Movement current;
 	
-	public Pattern(PrototypeMovement pm){
+	public Pattern(FactoryMovement pm){
 		pattern = new ArrayList<Movement>();
 		onGoing = false;
 		protoMvt = pm;

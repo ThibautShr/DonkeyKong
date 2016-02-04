@@ -16,7 +16,6 @@ public class BarrelMoveBlockers extends MoveBlockerRulesApplierDefaultImpl {
 	}
 	
 	public void moveBlockerRule(Barrel b, Platform w){
-		System.out.println("MoveBlockerRule : Barrel , Platform");
 		GameMovableDriverDefaultImpl g = new GameMovableDriverDefaultImpl();
 		if(b.getSpeedVector().getDirection().getY() > 0){
 			 Random randomGenerator = new Random();

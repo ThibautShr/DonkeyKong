@@ -72,7 +72,5 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 		if(b.getSpeedVector().getDirection().getX() == - 1 || b.getSpeedVector().getDirection().getX() == 1)
 			g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
 		
-		/*setChanged();
-		notifyObservers();*/
 	}
 }

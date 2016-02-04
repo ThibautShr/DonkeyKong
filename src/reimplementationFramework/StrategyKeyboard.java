@@ -19,14 +19,18 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 	protected SpeedVector speedVector = new SpeedVectorDefaultImpl(new Point(0,0));
 	protected SpeedVector speedVectorSave = new SpeedVectorDefaultImpl(new Point(0,0));
 	protected int init_speed = speedVector.getSpeed();
-	protected PrototypeMovement prototype = new PrototypeMovementDefaultImpl();
+	
+	//protected FactoryMovement factoryMovement = new SingletonMovement(); // Pattern Singleton  
+	protected FactoryMovement factoryMovement = new PrototypeMovement(); // Pattern Protoype  
+	//protected FactoryMovement factoryMovement = new AbstractFactoryMovement(); // Pattern Factory
+		
 	protected Movement movement;
-	protected Movement gravity = prototype.getGravity();
+	protected Movement gravity = factoryMovement.getGravity();
 	protected ArrayList<Integer> listKey = new ArrayList<Integer>();
 	
 	protected boolean onOverlappableArea = false;
 	
-	public static final int SPEED_UP = 6;
+	public static final int SPEED_UP = 2;
 	public static final int THRESHOLD_SPEED_UP = 8;
 	public static final int THRESHOLD_GRAVITY_SPEED_UP = 1;
 	
@@ -91,21 +95,21 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 			switch (keycode) {
 				case KeyEvent.VK_RIGHT:
 					if(!gravity.OnGoing())
-						movement = prototype.getRight();
+						movement = factoryMovement.getRight();
 					break;
 				case KeyEvent.VK_LEFT:
 					if(!gravity.OnGoing())
-						movement = prototype.getLeft();
+						movement = factoryMovement.getLeft();
 					break;
 				case KeyEvent.VK_UP:
 					if(onOverlappableArea){
-						movement = prototype.getUp();
+						movement = factoryMovement.getUp();
 						onOverlappableArea = false;
 					}
 					break;
 				case KeyEvent.VK_DOWN:
 					if(!gravity.OnGoing())
-						movement = prototype.getDown();
+						movement = factoryMovement.getDown();
 					break;
 				case KeyEvent.VK_SPACE:
 					//if(movement == null || !movement.OnGoing() || listKey.get(0) != KeyEvent.VK_SPACE) // Not allow the jump when Mario is falling 
@@ -113,7 +117,7 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 					//if(((Gravity) gravity).getStep() == 0)
 					//System.out.println("start jump : " + speedVectorSave.getDirection().getX() + "," + speedVectorSave.getDirection().getY());
 					if(!onOverlappableArea)
-						movement = prototype.getJump(speedVectorSave);
+						movement = factoryMovement.getJump(speedVectorSave);
 					break;
 			}
 		}
