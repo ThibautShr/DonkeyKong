@@ -10,6 +10,7 @@ import java.util.TimerTask;
 
 import donkeykong.entities.*;
 import donkeykong.movements.PrototypeMovement;
+import donkeykong.movements.PrototypeMovementImpl;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;
 import gameframework.base.DrawableImage;
@@ -311,7 +312,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public void addBarrel(int nb){
 		for(int i=0; i<nb; ++i){
 			GameDriverReimplDefault barrelDriver = new GameDriverReimplDefault();
-			Barrel b = new Barrel(canvas,new PrototypeMovement());
+			Barrel b = new Barrel(canvas,new PrototypeMovementImpl());
 			
 			StrategyPattern sp = new StrategyPattern(b.getMoveRight(), new SpeedVectorDefaultImpl(new Point(0,0)));
 			

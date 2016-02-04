@@ -20,9 +20,9 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 	protected SpeedVector speedVectorSave = new SpeedVectorDefaultImpl(new Point(0,0));
 	protected int init_speed = speedVector.getSpeed();
 	
-	//protected FactoryMovement factoryMovement = new SingletonMovement(); // Pattern Singleton  
-	protected FactoryMovement factoryMovement = new PrototypeMovement(); // Pattern Protoype  
-	//protected FactoryMovement factoryMovement = new AbstractFactoryMovement(); // Pattern Factory
+	//protected FactoryMovement factoryMovement = new SingletonMovementImpl(); // Pattern Singleton  
+	protected FactoryMovement factoryMovement = new PrototypeMovementImpl(); // Pattern Protoype  
+	//protected FactoryMovement factoryMovement = new AbstractFactoryMovementImpl(); // Pattern Factory
 		
 	protected Movement movement;
 	protected Movement gravity = factoryMovement.getGravity();
@@ -35,13 +35,11 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 	public static final int THRESHOLD_GRAVITY_SPEED_UP = 1;
 	
 	public SpeedVector getSpeedVector() {
-		//(!listKey.isEmpty() && listKey.get(listKey.size()-1) != KeyEvent.VK_SPACE)
 		speedVector.setSpeed(init_speed);
 		if(movement != null){
 			if(movement.OnGoing()){
 				if(listKey.size() > THRESHOLD_SPEED_UP)
 					speedVector.setSpeed(speedVector.getSpeed() + SPEED_UP);
-				//System.out.println(((Gravity)gravity).getStep());
 				speedVector.setDirection(movement.nextStep());
 				speedVectorSave.setDirection(new Point((int)(speedVector.getDirection().getX()),0)); // we save the current speedVector (without gravity) used for a jump
 			}
@@ -57,8 +55,6 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 		if((movement == null || !movement.OnGoing()) && gravity.OnGoing()){
 			Point direction = gravity.nextStep();
 			speedVector.setSpeed(speedVector.getSpeed() + (((Gravity)gravity).getStep() / THRESHOLD_GRAVITY_SPEED_UP)); 
-			//System.out.println(((Gravity)gravity).getStep());
-			//System.out.println("speed : " + speedVector.getSpeed());
 			speedVector.setDirection(new Point((int)speedVector.getDirection().getX(), (int)direction.getY())); // apply gravity
 		}
 		
@@ -68,7 +64,6 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 			onOverlappableArea = false;
 		}
 		
-		//System.out.println("speedVector : " + speedVector.getDirection().getX() + "," + speedVector.getDirection().getY());
 		return speedVector;
 	}
 
@@ -112,12 +107,14 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 						movement = factoryMovement.getDown();
 					break;
 				case KeyEvent.VK_SPACE:
-					//if(movement == null || !movement.OnGoing() || listKey.get(0) != KeyEvent.VK_SPACE) // Not allow the jump when Mario is falling 
-					//System.out.println(((Gravity) gravity).getStep());
+					//if(movement == null || !movement.OnGoing() || listKey.get(0) != KeyEvent.VK_SPACE){ // Not allow the jump when Mario is falling 
 					//if(((Gravity) gravity).getStep() == 0)
-					//System.out.println("start jump : " + speedVectorSave.getDirection().getX() + "," + speedVectorSave.getDirection().getY());
-					if(!onOverlappableArea)
-						movement = factoryMovement.getJump(speedVectorSave);
+					//if(!onOverlappableArea){
+						if(listKey.size() > 1)
+							movement = factoryMovement.getJump(speedVectorSave);
+						else
+							movement = factoryMovement.getJump(speedVector);
+					//}
 					break;
 			}
 		}
