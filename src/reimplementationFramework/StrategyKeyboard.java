@@ -20,8 +20,8 @@ public class StrategyKeyboard extends KeyAdapter implements MoveStrategy, Observ
 	protected SpeedVector speedVectorSave = new SpeedVectorDefaultImpl(new Point(0,0));
 	protected int init_speed = speedVector.getSpeed();
 	
-	//protected FactoryMovement factoryMovement = new SingletonMovementImpl(); // Pattern Singleton  
-	protected FactoryMovement factoryMovement = new PrototypeMovementImpl(); // Pattern Protoype  
+	protected FactoryMovement factoryMovement = new SingletonMovementImpl(); // Pattern Singleton  
+	//protected FactoryMovement factoryMovement = new PrototypeMovementImpl(); // Pattern Protoype  
 	//protected FactoryMovement factoryMovement = new AbstractFactoryMovementImpl(); // Pattern Factory
 		
 	protected Movement movement;
