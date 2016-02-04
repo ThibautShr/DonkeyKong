@@ -9,11 +9,13 @@ import java.util.Observer;
 import donkeykong.entities.BackGround;
 import donkeykong.entities.Barrel;
 import donkeykong.entities.DonkeyKong;
+import donkeykong.entities.Hole;
 import donkeykong.entities.Ladder;
 import donkeykong.entities.Mario;
 import donkeykong.entities.Peach;
 import donkeykong.entities.Platform;
 import donkeykong.entities.PrototypeEntities;
+import donkeykong.entities.Wall;
 import donkeykong.movements.PrototypeMovementDefaultImpl;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;
@@ -30,6 +32,7 @@ import gameframework.game.MoveBlockerChecker;
 import gameframework.game.MoveBlockerCheckerDefaultImpl;
 import gameframework.game.OverlapProcessor;
 import gameframework.game.OverlapProcessorDefaultImpl;
+import reimplementationFramework.GameDriverReimplDefault;
 import reimplementationFramework.StrategyKeyboard;
 import reimplementationFramework.StrategyPattern;
 
@@ -42,9 +45,13 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	private static final int NB_COLUMNS = 28;
 	private static final int MIN_COLUMN_HEIGHT = 3;
 	
-	private static final int HOLE = 0;
+	private static final int BACKGRAND = 0;
 	private static final int PLATFORM = 1;
 	private static final int LADDER = 2;
+	private static final int WALL = 3;
+	private static final int HOLE = 4;
+	
+	private static final int WEIGHT_LADDER = 2;
 	
 	private ArrayList<Integer> indexPlatforms;
 	private MarioOverlapRules marioOverlapRules;
@@ -75,7 +82,10 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		tab = new int[NB_ROWS][NB_COLUMNS];
 		for(int i=0; i<NB_ROWS; ++i){
 			for(int j=0; j<NB_COLUMNS; ++j){
-				tab[i][j] = HOLE;
+				if(j==0 || j==NB_COLUMNS - 1)
+					tab[i][j] = WALL;
+				else
+					tab[i][j] = BACKGRAND;
 			}
 		}
 	}
@@ -124,24 +134,32 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	}
 
 	public void makeLadder(int i, int j){
-		int randomColumn = (int) (Math.random() * NB_COLUMNS);
+		int randomColumn = (int) (Math.random() * NB_COLUMNS - 2 - WEIGHT_LADDER) + 1;
+		
 		int secondColumn = randomColumn;
 		if(randomColumn == NB_COLUMNS - 1)
 			secondColumn--;
 		else
 			secondColumn++;
+
+		/*if(i != NB_ROWS-1){
+			tab[i+1][randomColumn] = WALL;
+			tab[i+1][secondColumn] = WALL;
+		}*/
+		
 		while(i > j){
 			tab[i][randomColumn] = LADDER;
-			tab[i][secondColumn] = LADDER;
+			for(int k = 1;k < WEIGHT_LADDER;++k)
+				tab[i][randomColumn + k] = LADDER;
 			i--;
 		}
 	}
 	
 	public int getUnderLimit(int i){
 		if(i == indexPlatforms.size() - 1)
-			return indexPlatforms.get(i-1) - 1;
+			return indexPlatforms.get(i-1) - 2;
 		else
-			return indexPlatforms.get(i+1) - 1;
+			return indexPlatforms.get(i+1) - 2;
 	}
 	
 	public void addLadders(int nbLadders){
@@ -166,6 +184,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	
 	public void makeHole(int row,int column,int size){
 		for(int i=0; i<size; ++i){
+			tab[row-1][column + i] = HOLE;
 			tab[row][column + i] = HOLE;
 		}
 	}
@@ -207,14 +226,18 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		DrawableImage backgroundDrawableImage = new DrawableImage("images/" + backgroundImage, canvas);
 		DrawableImage ladderDrawableImage = new DrawableImage("images/" + ladderImage, canvas);
 		DrawableImage platformDrawableImage = new DrawableImage("images/" + platformImage, canvas);
+		DrawableImage wallDrawableImage = new DrawableImage("images/" + platformImage, canvas);
+		DrawableImage holeDrawableImage = new DrawableImage("images/" + backgroundImage, canvas);
 		
 		BackGround background;
 		Platform platform;
 		Ladder ladder;
+		Wall wall;
+		Hole hole;
 		for (int i = 0; i < NB_ROWS; ++i) {
 			for (int j = 0; j < NB_COLUMNS; ++j) {
 				switch(tab[i][j]){
-					case HOLE : 
+					case BACKGRAND : 
 						//System.out.println("Hole");
 						//universe.addGameEntity(new BackGround(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
 						background = prototypeEntities.getBackground();
@@ -230,12 +253,25 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 						platform.setImage(platformDrawableImage);
 						universe.addGameEntity(platform);
 						break;
+					case WALL :
+						wall = prototypeEntities.getWall();
+						wall.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
+						wall.setImage(wallDrawableImage);
+						universe.addGameEntity(wall);
+						break;
 					case LADDER :
 						//universe.addGameEntity(new Ladder(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
 						ladder = prototypeEntities.getLadder();
 						ladder.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
 						ladder.setImage(ladderDrawableImage);
 						universe.addGameEntity(ladder);
+						break;
+					case HOLE :
+						//universe.addGameEntity(new Ladder(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
+						hole = prototypeEntities.getHole();
+						hole.setPosition(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE));
+						hole.setImage(holeDrawableImage);
+						universe.addGameEntity(hole);
 						break;
 				}
 			}
@@ -269,26 +305,35 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		universe.addGameEntity(dk);
 	}
 	
-	public void addBarrel(){
-		//GameMovableDriverDefaultImpl barrelDriver = new GameMovableDriverDefaultImpl();
-		GameMovableDriverDefaultImpl marioDriver = new GameMovableDriverDefaultImpl();
-		StrategyKeyboard keyStr = new StrategyKeyboard();
-		marioMoveBlockers.addObserver((Observer)keyStr);
-		marioOverlapRules.addObserver((Observer)keyStr);
-		
-		marioDriver.setStrategy(keyStr);
-		marioDriver.setmoveBlockerChecker(moveBlockerChecker);
-		canvas.addKeyListener(keyStr);
-		Barrel b = new Barrel(canvas,new PrototypeMovementDefaultImpl());
-		b.setDriver(marioDriver);
-		//StrategyPattern sp = new StrategyPattern(b.getMoveRight(), new SpeedVectorDefaultImpl(new Point(0,0)));
-		//barrelDriver.setStrategy(sp);
-		//barrelDriver.setmoveBlockerChecker(moveBlockerChecker);
-		//b.setDriver(barrelDriver);
-		int barrelHeight = (int) b.getBoundingBox().getHeight();
-		b.setPosition(new Point(2 * SPRITE_SIZE , (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE  - barrelHeight));
-		//System.out.println(b.getX() + " " + b.getY());
-		universe.addGameEntity(b);
+	public void addBarrel(int nb){
+		for(int i=0; i<nb; ++i){
+			GameDriverReimplDefault barrelDriver = new GameDriverReimplDefault();
+			//GameMovableDriverDefaultImpl marioDriver = new GameMovableDriverDefaultImpl();
+			//StrategyKeyboard keyStr = new StrategyKeyboard();
+			//marioMoveBlockers.addObserver((Observer)keyStr);
+			//marioOverlapRules.addObserver((Observer)keyStr);
+			
+			/*marioDriver.setStrategy(keyStr);
+			marioDriver.setmoveBlockerChecker(moveBlockerChecker);
+			canvas.addKeyListener(keyStr);*/
+			
+			Barrel b = new Barrel(canvas,new PrototypeMovementDefaultImpl());
+			//b.setDriver(marioDriver);
+			
+			StrategyPattern sp = new StrategyPattern(b.getMoveRight(), new SpeedVectorDefaultImpl(new Point(0,0)));
+	
+			//marioMoveBlockers.addObserver((Observer)sp);
+			//marioOverlapRules.addObserver((Observer)sp);
+			
+			barrelDriver.setStrategy(sp);
+			barrelDriver.setmoveBlockerChecker(moveBlockerChecker);
+			b.setDriver(barrelDriver);
+			
+			int barrelHeight = (int) b.getBoundingBox().getHeight();
+			b.setPosition(new Point(20 * i + 2 * SPRITE_SIZE , (indexPlatforms.get(indexPlatforms.size()-1)) * SPRITE_SIZE  - barrelHeight));
+			//System.out.println(b.getX() + " " + b.getY());
+			universe.addGameEntity(b);
+		}
 	}
 
 	public void addPeach(){

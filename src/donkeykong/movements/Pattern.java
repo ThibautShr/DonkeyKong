@@ -22,6 +22,10 @@ public class Pattern implements Movement {
 		
 	}
 
+	public Movement getCurrent(){
+		return current;
+	}
+	
 	@Override
 	public Point nextStep() {
 		

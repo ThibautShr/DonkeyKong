@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.omg.Messaging.SyncScopeHelper;
-
 import donkeykong.movements.*;
 import donkeykong.rules.MarioMoveBlockers;
 import donkeykong.rules.MarioOverlapRules;

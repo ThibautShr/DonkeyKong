@@ -11,7 +11,17 @@ public class PrototypeEntities {
 	Ladder ladder;
 	Mario mario;
 	Platform platform;
+	Wall wall;
+	Hole hole;
 	
+	public Wall getWall() throws CloneNotSupportedException {
+		return wall.clone();
+	}
+
+	public void setWall(Wall wall) {
+		this.wall = wall;
+	}
+
 	public BackGround getBackground() throws CloneNotSupportedException {
 		return background.clone();
 	}
@@ -60,9 +70,19 @@ public class PrototypeEntities {
 		this.platform = platform;
 	}
 
+	public Hole getHole() throws CloneNotSupportedException {
+		return hole.clone();
+	}
+
+	public void setHole(Hole hole) {
+		this.hole = hole;
+	}
+	
 	public PrototypeEntities(Canvas canvas){
 		background = new BackGround(canvas, new Point(0, 0));
+		hole = new Hole(canvas, new Point(0, 0));
 		ladder = new Ladder(canvas, new Point(0, 0));
 		platform = new Platform(canvas, 0, 0);
+		wall = new Wall(canvas, 0, 0);
 	}
 }

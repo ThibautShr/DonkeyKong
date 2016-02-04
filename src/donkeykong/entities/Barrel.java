@@ -16,6 +16,7 @@ import gameframework.game.GameMovableDriver;
 import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.MoveBlocker;
 import gameframework.game.SpriteManagerDefaultImpl;
+import reimplementationFramework.GameDriverReimplDefault;
 
 public class Barrel extends GameMovable implements Drawable, GameEntity, Overlappable {
 	
@@ -40,7 +41,7 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 		moveRight = pm.getRight();
 		moveLeft = pm.getLeft();
 		moveDown = pm.getDown();
-	
+		super.setDriver(new GameDriverReimplDefault());
 	}
 
 	public Rectangle getBoundingBox() {
@@ -62,10 +63,14 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 		return moveCurrent.nextStep();
 	}
 
-	@Override
-	public void setDriver(GameMovableDriver driver){
+	public void setDriver(GameDriverReimplDefault driver){
 		
 		super.setDriver(driver);
+	}
+	
+	public GameDriverReimplDefault getDriver(){
+		GameDriverReimplDefault tmp = (GameDriverReimplDefault) super.getDriver();
+		return  tmp;
 	}
 	public void draw(Graphics g) {
 		movable = true;
@@ -117,6 +122,7 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 	}
 
 	public Movement getMoveDown() {
+		System.out.println("Down");
 		return moveDown;
 	}
 

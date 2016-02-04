@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import donkeykong.entities.Barrel;
 import donkeykong.entities.DonkeyKong;
+import donkeykong.entities.Hole;
 import donkeykong.entities.Ladder;
 import donkeykong.entities.Mario;
 import donkeykong.entities.Peach;
@@ -18,6 +19,7 @@ import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverse;
 import gameframework.game.IllegalMoveException;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
+import reimplementationFramework.GameDriverReimplDefault;
 import reimplementationFramework.StrategyPattern;
 
 public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
@@ -64,13 +66,31 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 		System.out.println("THE END");
 		life.setValue(0);
 		endOfGame.setValue(false);
-		
 	}	
+
+	public void overlapRule(Barrel b, Hole h) {
+		System.out.println("OverlapRule : Barrel , Hole");
+
+		GameDriverReimplDefault g = b.getDriver();
+		
+		if(b.getSpeedVector().getDirection().getX() == - 1){
+			g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
+		}
+	}
 	
 	public void overlapRule(Barrel b, Ladder l) {
 		System.out.println("OverlapRule : Barrel , Ladder");
-		GameMovableDriverDefaultImpl g = new GameMovableDriverDefaultImpl();
+		/*GameMovableDriverDefaultImpl g = new GameMovableDriverDefaultImpl();
 		g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
-		b.setDriver(g);
+		b.setDriver(g);*/
+		
+		GameDriverReimplDefault g = b.getDriver();
+		
+		if(b.getSpeedVector().getDirection().getX() == - 1){
+			g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
+		}
+		
+		/*setChanged();
+		notifyObservers();*/
 	}
 }
