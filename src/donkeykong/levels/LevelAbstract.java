@@ -54,6 +54,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	private static final int WALL = 3;
 	private static final int HOLE = 4;
 	
+	private static final int HOLE_SIZE = 2;
 	private static final int WEIGHT_LADDER = 2;
 	
 	private ArrayList<Integer> indexPlatforms;
@@ -61,6 +62,8 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	private MoveBlockerChecker moveBlockerChecker;
 	private MarioMoveBlockers marioMoveBlockers;
 	private PrototypeEntities prototypeEntities;
+	
+	private long time;
 
 	
 	private static int[][] tab;
@@ -68,6 +71,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	public LevelAbstract(Game g) {
 		super(g);
 		canvas = g.getCanvas();
+		time = 3000;
 	}
 	
 	public void run(){
@@ -79,9 +83,13 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
         };
 		
 		Timer timer = new Timer("Barrel Timer");
-		timer.scheduleAtFixedRate(timerBarrel, 30, 3000);
+		timer.scheduleAtFixedRate(timerBarrel, 30, time);
 		
 		super.run();
+	}
+	
+	public void setTimeInterval(long time){
+		this.time = time; 
 	}
 	
 	public void initUniverse(){
@@ -99,7 +107,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		tab = new int[NB_ROWS][NB_COLUMNS];
 		for(int i=0; i<NB_ROWS; ++i){
 			for(int j=0; j<NB_COLUMNS; ++j){
-				if((j==0 || j==NB_COLUMNS - 1) && i != NB_ROWS - 2)
+				if((j==0 || j==NB_COLUMNS - 1))
 					tab[i][j] = WALL;
 				else
 					tab[i][j] = BACKGRAND;
@@ -129,8 +137,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 			column = (int) (Math.random() * (NB_COLUMNS - 3)) + 1;
 		}while(tab[line][column] == LADDER || tab[line][column] == HOLE);
 		
-		tab[line-1][column] = PLATFORM;
-		System.out.println("end make block !!!");
+		tab[line-1][column] = WALL;
 	}
 	
 	public void addBlock(int nb){
@@ -216,12 +223,15 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 	}
 	
 	public void addHoles(int nb){
+		makeHole(indexPlatforms.get(0),1,HOLE_SIZE);
+		makeHole(indexPlatforms.get(0),NB_COLUMNS -1 - HOLE_SIZE,HOLE_SIZE);
+		
 		int holesRemaining = nb;
 		int platformIndex, holePosition;
 		while(holesRemaining > 0){
-			platformIndex = (int) (Math.random() * (indexPlatforms.size() - 1));
+			platformIndex = (int) (Math.random() * (indexPlatforms.size() - 1) + 1);
 			holePosition = (int) (Math.random() * (NB_COLUMNS - 1));
-			makeHole(indexPlatforms.get(platformIndex),holePosition, 2);
+			makeHole(indexPlatforms.get(platformIndex),holePosition, HOLE_SIZE);
 			holesRemaining--;
 		}
 		
@@ -319,7 +329,7 @@ public abstract class LevelAbstract extends GameLevelDefaultImpl implements Leve
 		marioDriver.setmoveBlockerChecker(moveBlockerChecker);
 		canvas.addKeyListener(keyStr);
 		mario.setDriver(marioDriver);
-		mario.setPosition(new Point(5 * SPRITE_SIZE, 29 * SPRITE_SIZE));
+		mario.initPosition();
 		universe.addGameEntity(mario);
 	}
 	

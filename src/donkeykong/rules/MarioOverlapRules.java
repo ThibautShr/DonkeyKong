@@ -53,8 +53,12 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 	
 	public void overlapRule(Mario m, Barrel b){	
-		life.setValue(0);
-		endOfGame.setValue(false);
+		System.out.println("Loose (Barrel)");
+		/*life.setValue(0);
+		endOfGame.setValue(false);*/
+		m.initPosition();
+		universe.removeGameEntity(b);
+
 	}
 	
 	public void overlapRule(Mario m, Peach p){
@@ -63,9 +67,10 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 	
 	public void overlapRule(Mario m, DonkeyKong dk){
-		System.out.println("THE END");
-		life.setValue(0);
-		endOfGame.setValue(false);
+		System.out.println("Loose (Dk)");
+		/*life.setValue(0);
+		endOfGame.setValue(false);*/
+		m.initPosition();
 	}	
 
 	public void overlapRule(Barrel b, Hole h) {
