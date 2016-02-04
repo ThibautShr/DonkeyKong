@@ -17,7 +17,7 @@ public class LevelOne extends LevelAbstract{
 		addRules();
 		drawGameBoard();
 		addPlatforms(4);
-		addLadders(5);
+		addLadders(7);
 		addHoles(3);
 		
 		try {
@@ -28,7 +28,7 @@ public class LevelOne extends LevelAbstract{
 		addMario();
 		addDonkeyKong();
 		addPeach();
-		addBarrel(5);
+		addBarrel(1);
 	}
 
 }

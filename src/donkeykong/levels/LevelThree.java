@@ -12,7 +12,6 @@ public class LevelThree extends LevelAbstract{
 		super(g);
 	}
 
-	@Override
 	public void init() {
 		initTab();
 		addRules();
@@ -20,6 +19,7 @@ public class LevelThree extends LevelAbstract{
 		addPlatforms(5);
 		addLadders(6);
 		addHoles(7);
+		addBlock(4);
 		try {
 			addEntities(BACKGROUND,LADDER,PLATFORM);
 		} catch (CloneNotSupportedException e) {
@@ -28,6 +28,6 @@ public class LevelThree extends LevelAbstract{
 		addMario();
 		addDonkeyKong();
 		addPeach();
-		addBarrel(6);
+		addBarrel(1);
 	}
 }
