@@ -22,6 +22,15 @@ public class StrategyPattern implements MoveStrategy, Observer{
 	protected PrototypeMovement prototype = new PrototypeMovementDefaultImpl();
 	protected Movement gravity = prototype.getGravity();
 	protected boolean onOverlappableArea = false;
+	
+	/*public PrototypeMovement getPrototype() {
+		return prototype;
+	}
+
+	public void setPrototype(PrototypeMovement prototype) {
+		this.prototype = prototype;
+	}*/
+
 	protected int cptOverlappableArea = 0;
 	
 	protected Movement pattern;

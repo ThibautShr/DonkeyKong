@@ -69,26 +69,19 @@ public class MarioOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}	
 
 	public void overlapRule(Barrel b, Hole h) {
-		System.out.println("OverlapRule : Barrel , Hole");
 
 		GameDriverReimplDefault g = b.getDriver();
 		
-		if(b.getSpeedVector().getDirection().getX() == - 1){
+		if(b.getSpeedVector().getDirection().getX() == - 1 || b.getSpeedVector().getDirection().getX() == 1)
 			g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
-		}
 	}
 	
 	public void overlapRule(Barrel b, Ladder l) {
-		System.out.println("OverlapRule : Barrel , Ladder");
-		/*GameMovableDriverDefaultImpl g = new GameMovableDriverDefaultImpl();
-		g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
-		b.setDriver(g);*/
-		
+
 		GameDriverReimplDefault g = b.getDriver();
 		
-		if(b.getSpeedVector().getDirection().getX() == - 1){
+		if(b.getSpeedVector().getDirection().getX() == - 1 || b.getSpeedVector().getDirection().getX() == 1)
 			g.setStrategy(new StrategyPattern(b.getMoveDown(), b.getSpeedVector()));
-		}
 		
 		/*setChanged();
 		notifyObservers();*/

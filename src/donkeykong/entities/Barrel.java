@@ -122,7 +122,6 @@ public class Barrel extends GameMovable implements Drawable, GameEntity, Overlap
 	}
 
 	public Movement getMoveDown() {
-		System.out.println("Down");
 		return moveDown;
 	}
 
