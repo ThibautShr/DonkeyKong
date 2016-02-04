@@ -10,41 +10,17 @@ import gameframework.base.DrawableImage;
 import gameframework.base.Overlappable;
 import gameframework.game.GameEntity;
 
-public class Hole implements Drawable, GameEntity, Overlappable, Cloneable{
-	private DrawableImage image = null;
-	private Point position; 
-	public static final int RENDERING_SIZE = 30;
+public class Hole extends StaticEntity implements Cloneable{
+	
 
 	public Hole(Canvas defaultCanvas, Point position) {
-		image = new DrawableImage("images/background_jungle.png", defaultCanvas);
-		this.position = position;
+		super();
+		this.setImage( new DrawableImage("images/background_jungle.png", defaultCanvas));
+		this.setPosition(position);
 	}
 	
-	public void setImage(DrawableImage image){
-		this.image = image;
-	}
-	
+
 	public Hole clone() throws CloneNotSupportedException{
 		return (Hole) super.clone();
-	}
-
-	public Point getPosition() {
-		return position;
-	}
-	
-	public void setPosition(Point position) {
-		this.position = position;
-	}
-
-	public void draw(Graphics g) {
-		g.drawImage(image.getImage(), (int) getPosition().getX(),
-				(int) getPosition().getY(), RENDERING_SIZE, RENDERING_SIZE,
-				null);
-
-	}
-
-	public Rectangle getBoundingBox() {
-		return (new Rectangle((int) position.getX(), (int) position.getY(),
-				RENDERING_SIZE, RENDERING_SIZE));
 	}
 }
